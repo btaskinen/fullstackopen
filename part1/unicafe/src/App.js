@@ -7,9 +7,12 @@ const Button = ({ text, buttonHandler }) => {
 const StatisticsLine = ({ text, value }) => {
   const isPositive = text === "positive";
   return (
-    <p>
-      {text} {value} {isPositive ? "%" : ""}
-    </p>
+    <tr>
+      <td>{text}</td>
+      <td>
+        {value} {isPositive ? "%" : ""}
+      </td>
+    </tr>
   );
 };
 
@@ -21,12 +24,16 @@ const Statistics = ({ good, neutral, bad, all }) => {
     return (
       <div>
         <h1>statistics</h1>
-        <StatisticsLine text="good" value={good} />
-        <StatisticsLine text="neutral" value={neutral} />
-        <StatisticsLine text="bad" value={bad} />
-        <StatisticsLine text="all" value={all} />
-        <StatisticsLine text="average" value={average} />
-        <StatisticsLine text="positive" value={positive} />
+        <table>
+          <tbody>
+            <StatisticsLine text="good" value={good} />
+            <StatisticsLine text="neutral" value={neutral} />
+            <StatisticsLine text="bad" value={bad} />
+            <StatisticsLine text="all" value={all} />
+            <StatisticsLine text="average" value={average} />
+            <StatisticsLine text="positive" value={positive} />
+          </tbody>
+        </table>
       </div>
     );
   } else {
