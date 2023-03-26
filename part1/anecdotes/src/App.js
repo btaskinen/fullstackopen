@@ -26,15 +26,23 @@ const App = () => {
   const handleVoteClick = () => {
     const copyVotes = [...votes];
     copyVotes[selected] += 1;
-    console.log(copyVotes);
+    console.log("votes array", copyVotes);
     setVotes(copyVotes);
   };
 
+  const indexMostVotes = votes.indexOf(Math.max(...votes));
+  console.log("indexMostVotes", indexMostVotes);
+
+  const anecdoteMostVotes = anecdotes[indexMostVotes];
+
   return (
     <div>
+      <h2>Anecdote of the Day</h2>
       <p>{anecdotes[selected]}</p>
       <button onClick={handleVoteClick}>vote</button>
       <button onClick={handleAnecdoteClick}>next anecdote</button>
+      <h2>Anecdote with the most votes</h2>
+      <p>{anecdoteMostVotes}</p>
     </div>
   );
 };
