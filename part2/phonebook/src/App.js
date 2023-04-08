@@ -57,6 +57,15 @@ const App = () => {
     setFilterTerm(event.target.value);
   };
 
+  const deletePerson = (object) => {
+    console.log(object);
+    if (window.confirm(`Delete ${object.name}?`)) {
+      personService.deletePerson(object).then((response) => {
+        setPersons(persons.filter((person) => person.id !== object.id));
+      });
+    }
+  };
+
   const personsToShow = persons.filter((person) =>
     person.name.includes(filterTerm)
   );
@@ -74,7 +83,7 @@ const App = () => {
         onNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Persons persons={personsToShow} />
+      <Persons persons={personsToShow} onClick={deletePerson} />
     </div>
   );
 };
