@@ -28,9 +28,29 @@ const App = () => {
     console.log(isAlreadyInPhoneBook);
 
     if (isAlreadyInPhoneBook) {
-      alert(`${newName} is already added to phonebook`);
-      setNewName("");
-      setNewNumber("");
+      if (
+        window.confirm(
+          `${newName} is already added to phonebook. Do you want to replace the old number with a new one?`
+        )
+      ) {
+        const person = persons.find((p) => p.name === newName);
+        const updatedPerson = { ...person, number: newNumber };
+
+        personService
+          .update(person.id, updatedPerson)
+          .then((returnedPerson) => {
+            setPersons(
+              persons.map((person) =>
+                person.id !== updatedPerson.id ? person : returnedPerson
+              )
+            );
+          });
+        setNewName("");
+        setNewNumber("");
+      } else {
+        setNewName("");
+        setNewNumber("");
+      }
     } else {
       const nameObject = {
         name: newName,
