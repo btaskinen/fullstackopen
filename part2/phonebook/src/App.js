@@ -3,6 +3,7 @@ import axios from "axios";
 import Filter from "./components/Filter";
 import NewEntryForm from "./components/NewEntryForm";
 import Persons from "./components/Persons";
+import personService from "./services/phonebook";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,8 +12,8 @@ const App = () => {
   const [filterTerm, setFilterTerm] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
-      setPersons(response.data);
+    personService.getAll().then((initialPersons) => {
+      setPersons(initialPersons);
     });
   }, []);
 
@@ -36,13 +37,11 @@ const App = () => {
         number: newNumber,
       };
 
-      axios
-        .post("http://localhost:3001/persons", nameObject)
-        .then((response) => {
-          setPersons(persons.concat(nameObject));
-          setNewName("");
-          setNewNumber("");
-        });
+      personService.create(nameObject).then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson));
+        setNewName("");
+        setNewNumber("");
+      });
     }
   };
 
