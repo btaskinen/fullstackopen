@@ -1,11 +1,6 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": 1
-    },
-    {
       "name": "Ada Lovelace",
       "number": "39-44-5323523",
       "id": 2
@@ -29,6 +24,16 @@
       "name": "Emmylou Stardust",
       "number": "033-435-5829",
       "id": 7
+    },
+    {
+      "name": "James Smith",
+      "number": "044-444-32452",
+      "id": 8
+    },
+    {
+      "name": "Jane Doe",
+      "number": "040-932-3264",
+      "id": 9
     }
   ]
 }

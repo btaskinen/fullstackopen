@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import Filter from "./components/Filter";
 import NewEntryForm from "./components/NewEntryForm";
 import Persons from "./components/Persons";
+import Notification from "./components/Notification";
 import personService from "./services/phonebook";
 
 const App = () => {
@@ -10,6 +10,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterTerm, setFilterTerm] = useState("");
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     personService.getAll().then((initialPersons) => {
@@ -45,6 +46,10 @@ const App = () => {
               )
             );
           });
+        setNotification(`${newName}'s phone number was successfully updated`);
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
         setNewName("");
         setNewNumber("");
       } else {
@@ -59,6 +64,12 @@ const App = () => {
 
       personService.create(nameObject).then((returnedPerson) => {
         setPersons(persons.concat(returnedPerson));
+        setNotification(
+          `Person ${newName} was successfully added to the phonebook`
+        );
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
         setNewName("");
         setNewNumber("");
       });
@@ -82,6 +93,10 @@ const App = () => {
     if (window.confirm(`Delete ${object.name}?`)) {
       personService.deletePerson(object).then((response) => {
         setPersons(persons.filter((person) => person.id !== object.id));
+        setNotification(`${response}`);
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
       });
     }
   };
@@ -93,6 +108,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification message={notification} />
       <Filter value={filterTerm} onChange={handleFilterTermChange} />
       <h2>Add a New Entry</h2>
       <NewEntryForm
