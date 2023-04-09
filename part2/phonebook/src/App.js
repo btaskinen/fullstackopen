@@ -11,6 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filterTerm, setFilterTerm] = useState("");
   const [notification, setNotification] = useState(null);
+  const [notificationColor, setNotificationColor] = useState("green");
 
   useEffect(() => {
     personService.getAll().then((initialPersons) => {
@@ -45,11 +46,23 @@ const App = () => {
                 person.id !== updatedPerson.id ? person : returnedPerson
               )
             );
+            setNotification(
+              `${newName}'s phone number was successfully updated`
+            );
+            setTimeout(() => {
+              setNotification(null);
+            }, 5000);
+          })
+          .catch(() => {
+            setNotification(
+              `Information for ${newName} has been removed from phonebook.`
+            );
+            setNotificationColor("red");
+            setTimeout(() => {
+              setNotification(null);
+              setNotificationColor("green");
+            }, 5000);
           });
-        setNotification(`${newName}'s phone number was successfully updated`);
-        setTimeout(() => {
-          setNotification(null);
-        }, 5000);
         setNewName("");
         setNewNumber("");
       } else {
@@ -108,7 +121,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <Notification message={notification} />
+      <Notification message={notification} color={notificationColor} />
       <Filter value={filterTerm} onChange={handleFilterTermChange} />
       <h2>Add a New Entry</h2>
       <NewEntryForm

@@ -1,11 +1,6 @@
 {
   "persons": [
     {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": 2
-    },
-    {
       "name": "Dan Abramov",
       "number": "12-43-234345",
       "id": 3
@@ -32,7 +27,7 @@
     },
     {
       "name": "Jane Doe",
-      "number": "040-932-3264",
+      "number": "034-482-4820",
       "id": 9
     }
   ]
