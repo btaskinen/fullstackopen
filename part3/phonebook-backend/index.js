@@ -41,6 +41,16 @@ app.get("/info", (request, response) => {
   );
 });
 
-const PORT = 3001;
+app.get("/api/persons/:id", (request, response) => {
+  const id = Number(request.params.id);
+  const person = persons.find((person) => person.id === id);
+  if (person) {
+    response.json(person);
+  } else {
+    response.status(404).send(`Person with ID ${id} does not exist`).end();
+  }
+});
+
+const PORT = 3002;
 app.listen(PORT);
 console.log(`Server is running on port ${PORT}`);
