@@ -5,3 +5,31 @@ Content-Type: application/json
   "name": "Emmylou Stardust",
   "number": "040-344-5454"
 }
+
+###
+
+POST http://localhost:3002/api/persons
+Content-Type: application/json
+
+{
+  "name": "Emmylou Stardust"
+}
+
+###
+
+POST http://localhost:3002/api/persons
+Content-Type: application/json
+
+{
+  "number": "040-344-5454"
+}
+
+###
+
+POST http://localhost:3002/api/persons
+Content-Type: application/json
+
+{
+  "name": "Dan Abramov",
+  "number": "12-43-234345"
+}
