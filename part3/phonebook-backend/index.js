@@ -7,6 +7,7 @@ morgan.token("request-body", (request, response) => {
   if (request.body.name) return JSON.stringify(request.body);
 });
 
+app.use(express.static("build"));
 app.use(cors());
 app.use(express.json());
 app.use(morgan(":method :url :response-time :request-body "));
