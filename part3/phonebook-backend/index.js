@@ -1,7 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
 const cors = require("cors");
+const PhonebookEntry = require("./models/phonebook");
 
 morgan.token("request-body", (request, response) => {
   if (request.body.name) return JSON.stringify(request.body);
@@ -12,31 +14,10 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan(":method :url :response-time :request-body "));
 
-let persons = [
-  {
-    id: 1,
-    name: "Arto Hellas",
-    number: "040-123456",
-  },
-  {
-    id: 2,
-    name: "Ada Lovelace",
-    number: "39-44-5323523",
-  },
-  {
-    id: 3,
-    name: "Dan Abramov",
-    number: "12-43-234345",
-  },
-  {
-    id: 4,
-    name: "Mary Poppendieck",
-    number: "39-23-6423122",
-  },
-];
-
 app.get("/api/persons", (request, response) => {
-  response.json(persons);
+  PhonebookEntry.find({}).then((entries) => {
+    response.json(entries);
+  });
 });
 
 app.get("/info", (request, response) => {
@@ -51,13 +32,16 @@ app.get("/info", (request, response) => {
 });
 
 app.get("/api/persons/:id", (request, response) => {
-  const id = Number(request.params.id);
-  const person = persons.find((person) => person.id === id);
-  if (person) {
-    response.json(person);
-  } else {
-    response.status(404).send(`Person with ID ${id} does not exist`).end();
-  }
+  PhonebookEntry.findById(request.params.id).then((entry) => {
+    if (entry) {
+      response.json(entry);
+    } else {
+      response
+        .status(404)
+        .send(`Person with ID ${request.params.id} does not exist`)
+        .end();
+    }
+  });
 });
 
 app.delete("/api/persons/:id", (request, response) => {
@@ -65,11 +49,6 @@ app.delete("/api/persons/:id", (request, response) => {
   person = persons.filter((person) => person.id !== id);
   response.status(204).end();
 });
-
-const generateId = () => {
-  const id = Math.floor(Math.random() * 1000);
-  return id;
-};
 
 app.post("/api/persons", (request, response) => {
   const body = request.body;
@@ -82,26 +61,25 @@ app.post("/api/persons", (request, response) => {
     return response.status(400).json({ error: "Number is missing" });
   }
 
-  const existingName = persons.find((p) => p.name === body.name);
+  // const existingName = persons.find((p) => p.name === body.name);
 
-  if (existingName) {
-    return response
-      .status(400)
-      .json({ error: "Name is already in Phonebook. Name must be unique." });
-  }
+  // if (existingName) {
+  //   return response
+  //     .status(400)
+  //     .json({ error: "Name is already in Phonebook. Name must be unique." });
+  // }
 
-  const person = {
-    id: generateId(),
+  const entry = new PhonebookEntry({
     name: body.name,
     number: body.number,
-  };
+  });
 
-  persons = persons.concat(person);
-
-  response.json(person);
+  entry.save().then((savedEntry) => {
+    response.json(savedEntry);
+  });
 });
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
