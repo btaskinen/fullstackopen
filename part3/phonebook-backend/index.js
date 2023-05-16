@@ -81,6 +81,21 @@ app.post("/api/persons", (request, response) => {
   });
 });
 
+app.put("/api/persons/:id", (request, response, next) => {
+  const body = request.body;
+
+  const entry = {
+    name: body.name,
+    number: body.number,
+  };
+
+  PhonebookEntry.findByIdAndUpdate(request.params.id, entry, { new: true })
+    .then((updatedEntry) => {
+      response.json(updatedEntry);
+    })
+    .catch((error) => next(error));
+});
+
 const errorHandler = (error, request, response, next) => {
   console.error(error.message);
 
