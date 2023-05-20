@@ -21,7 +21,23 @@ const phonebookShema = mongoose.Schema({
     minLength: [3, "Name must be at least 3 characters long!"],
     required: true,
   },
-  number: String,
+  number: {
+    type: String,
+    minLength: [8, "Number must be at least 8 characters long!"],
+    validate: {
+      validator: function (v) {
+        return /\d{3}-\d{7}/.test(v);
+      },
+      message: (props) => `${props.value} is not a valid phone number!`,
+    },
+    validate: {
+      validator: function (v) {
+        return /\d{2}-\d{8}/.test(v);
+      },
+      message: (props) => `${props.value} is not a valid phone number!`,
+    },
+    required: [true, "Phone number required!"],
+  },
 });
 
 phonebookShema.set("toJSON", {
