@@ -75,17 +75,28 @@ const App = () => {
         number: newNumber,
       };
 
-      personService.create(nameObject).then((returnedPerson) => {
-        setPersons(persons.concat(returnedPerson));
-        setNotification(
-          `Person ${newName} was successfully added to the phonebook`
-        );
-        setTimeout(() => {
-          setNotification(null);
-        }, 5000);
-        setNewName("");
-        setNewNumber("");
-      });
+      personService
+        .create(nameObject)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson));
+          setNotification(
+            `Person ${newName} was successfully added to the phonebook`
+          );
+          setTimeout(() => {
+            setNotification(null);
+          }, 5000);
+          setNewName("");
+          setNewNumber("");
+        })
+        .catch((error) => {
+          console.log(error.response.data.error);
+          setNotification(`${error.response.data.error}`);
+          setNotificationColor("red");
+          setTimeout(() => {
+            setNotification(null);
+            setNotificationColor("green");
+          }, 5000);
+        });
     }
   };
 
