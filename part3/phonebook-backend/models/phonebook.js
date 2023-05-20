@@ -26,13 +26,10 @@ const phonebookShema = mongoose.Schema({
     minLength: [8, "Number must be at least 8 characters long!"],
     validate: {
       validator: function (v) {
-        return /\d{3}-\d{7}/.test(v);
-      },
-      message: (props) => `${props.value} is not a valid phone number!`,
-    },
-    validate: {
-      validator: function (v) {
-        return /\d{2}-\d{8}/.test(v);
+        let test = /\d{3}-\d{7}/.test(v);
+        if (test) return test;
+        test = /\d{2}-\d{8}/.test(v);
+        return test;
       },
       message: (props) => `${props.value} is not a valid phone number!`,
     },
