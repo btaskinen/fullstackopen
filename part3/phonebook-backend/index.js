@@ -1,37 +1,36 @@
-require("dotenv").config();
-const express = require("express");
-const morgan = require("morgan");
+require('dotenv').config();
+const express = require('express');
+const morgan = require('morgan');
 const app = express();
-const cors = require("cors");
-const PhonebookEntry = require("./models/phonebook");
+const cors = require('cors');
+const PhonebookEntry = require('./models/phonebook');
 
-morgan.token("request-body", (request, response) => {
+morgan.token('request-body', (request) => {
   if (request.body.name) return JSON.stringify(request.body);
 });
 
-app.use(express.static("build"));
+app.use(express.static('build'));
 app.use(cors());
 app.use(express.json());
-app.use(morgan(":method :url :response-time :request-body "));
+app.use(morgan(':method :url :response-time :request-body '));
 
-app.get("/api/persons", (request, response) => {
+app.get('/api/persons', (request, response) => {
   PhonebookEntry.find({}).then((entries) => {
     response.json(entries);
   });
 });
 
-app.get("/info", (request, response) => {
-  const numberOfPhonebookEntries = persons.length;
+app.get('/info', (request, response) => {
   const timeOfRequest = new Date();
   response.send(
     `
-    <p>The phonebook has information for ${numberOfPhonebookEntries} people.<p>
+    <p>The phonebook has information for a set of people.<p>
     <p>${timeOfRequest}<p>
     `
   );
 });
 
-app.get("/api/persons/:id", (request, response) => {
+app.get('/api/persons/:id', (request, response) => {
   PhonebookEntry.findById(request.params.id).then((entry) => {
     if (entry) {
       response.json(entry);
@@ -44,23 +43,23 @@ app.get("/api/persons/:id", (request, response) => {
   });
 });
 
-app.delete("/api/persons/:id", (request, response, next) => {
+app.delete('/api/persons/:id', (request, response, next) => {
   PhonebookEntry.findByIdAndRemove(request.params.id)
-    .then((result) => {
+    .then(() => {
       response.status(204).end();
     })
     .catch((error) => next(error));
 });
 
-app.post("/api/persons", (request, response, next) => {
+app.post('/api/persons', (request, response, next) => {
   const body = request.body;
 
   if (!body.name) {
-    return response.status(400).json({ error: "Name is missing" });
+    return response.status(400).json({ error: 'Name is missing' });
   }
 
   if (!body.number) {
-    return response.status(400).json({ error: "Number is missing" });
+    return response.status(400).json({ error: 'Number is missing' });
   }
 
   // const existingName = persons.find((p) => p.name === body.name);
@@ -84,7 +83,7 @@ app.post("/api/persons", (request, response, next) => {
     .catch((error) => next(error));
 });
 
-app.put("/api/persons/:id", (request, response, next) => {
+app.put('/api/persons/:id', (request, response, next) => {
   const body = request.body;
 
   const entry = {
@@ -102,9 +101,9 @@ app.put("/api/persons/:id", (request, response, next) => {
 const errorHandler = (error, request, response, next) => {
   console.error(error.message);
 
-  if (error.name === "CastError") {
-    return response.status(400).send({ error: "malformatted id" });
-  } else if (error.name === "ValidationError") {
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' });
+  } else if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message });
   }
 
