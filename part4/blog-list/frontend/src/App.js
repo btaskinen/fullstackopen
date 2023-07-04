@@ -3,26 +3,26 @@ import { useState } from 'react';
 import './App.css';
 
 const App = () => {
-  const [newAuthor, setNewAuthor] = useState('');
   const [newTitle, setNewTitle] = useState('');
+  const [newAuthor, setNewAuthor] = useState('');
   const [newBlogURL, setNewBlogURL] = useState('');
 
   const addListEntry = (event) => {
     event.preventDefault();
-    console.log(newAuthor);
     console.log(newTitle);
+    console.log(newAuthor);
     console.log(newBlogURL);
     setNewAuthor('');
     setNewTitle('');
     setNewBlogURL('');
   };
 
-  const handleAuthorChange = (event) => {
-    setNewAuthor(event.target.value);
-  };
-
   const handleTitleChange = (event) => {
     setNewTitle(event.target.value);
+  };
+
+  const handleAuthorChange = (event) => {
+    setNewAuthor(event.target.value);
   };
 
   const handleBlogURLChange = (event) => {
@@ -35,10 +35,10 @@ const App = () => {
       <p>A list of interesting blogs found on the internet.</p>
       <form onSubmit={addListEntry}>
         <div>
-          Author: <input value={newAuthor} onChange={handleAuthorChange} />
+          Title: <input value={newTitle} onChange={handleTitleChange} />
         </div>
         <div>
-          Title: <input value={newTitle} onChange={handleTitleChange} />
+          Author: <input value={newAuthor} onChange={handleAuthorChange} />
         </div>
         <div>
           Blog URL: <input value={newBlogURL} onChange={handleBlogURLChange} />
