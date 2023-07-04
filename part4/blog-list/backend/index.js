@@ -23,12 +23,27 @@ app.get('/api/blogs', (request, response) => {
   });
 });
 
-app.post('/api/blogs', (request, response) => {
-  const blog = new Blog(request.body);
+app.post('/api/blogs', (request, response, next) => {
+  const { title, author, url } = request.body;
 
-  blog.save().then((result) => {
-    response.status(201).json(result);
+  if (!title) return response.status(400).json({ error: 'Title is missing!' });
+  if (!author)
+    return response.status(400).json({ error: 'Author is missing!' });
+  if (!url) return response.status(400).json({ error: 'URL is missing!' });
+
+  const blog = new Blog({
+    title,
+    author,
+    url,
+    likes: 0,
   });
+
+  blog
+    .save()
+    .then((savedBlog) => {
+      response.status(201).json(savedBlog);
+    })
+    .catch((error) => next(error));
 });
 
 const PORT = process.env.PORT;
