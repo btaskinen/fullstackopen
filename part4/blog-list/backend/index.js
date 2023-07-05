@@ -4,6 +4,10 @@ const app = express();
 const cors = require('cors');
 const Blog = require('./models/blog-entry');
 
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' });
+};
+
 app.use(cors());
 app.use(express.json());
 
@@ -45,6 +49,8 @@ app.post('/api/blogs', (request, response, next) => {
     })
     .catch((error) => next(error));
 });
+
+app.use(unknownEndpoint);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
