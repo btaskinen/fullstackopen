@@ -1,0 +1,22 @@
+.Blogs {
+  padding: 20px;
+}
+
+.Blogs_blogEntry {
+  display: grid;
+  grid-template-columns: 1fr 10fr;
+  color: #ffffff;
+  padding: 10px;
+}
+
+.Blogs_blogEntry > p {
+  padding: 6px;
+}
+
+.Blogs_blogEntry.dark {
+  background-color: var(--darker);
+}
+
+.Blogs_blogEntry.light {
+  background-color: var(--light);
+}

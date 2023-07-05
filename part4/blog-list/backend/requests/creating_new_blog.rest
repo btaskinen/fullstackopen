@@ -2,9 +2,9 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "Mastering TypeScript: 20 Best Practices for Improved Code Quality",
-  "author": "Vitalii Shevchuk",
-  "url": "https://medium.com/itnext/mastering-typescript-21-best-practices-for-improved-code-quality-2f7615e1fdc3"
+  "title": "Writing a Node Library in Rust",
+  "author": "Ninad Sinha",
+  "url": "https://blog.metlo.com/writing-a-node-library-in-rust/"
 }
 
 

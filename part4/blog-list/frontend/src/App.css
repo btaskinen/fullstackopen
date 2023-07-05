@@ -9,6 +9,14 @@ body {
     'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
+p {
+  margin: 0;
+}
+
+.App {
+  font-size: 18px;
+}
+
 .App > h1 {
   background-color: var(--dark);
   color: white;
