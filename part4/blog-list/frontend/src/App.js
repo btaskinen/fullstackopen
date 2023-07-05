@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import Form from './components/Form';
 import './App.css';
 
 const App = () => {
@@ -33,20 +34,15 @@ const App = () => {
     <div className="App">
       <h1>Blog List</h1>
       <p>A list of interesting blogs found on the internet.</p>
-      <form onSubmit={addListEntry}>
-        <div>
-          Title: <input value={newTitle} onChange={handleTitleChange} />
-        </div>
-        <div>
-          Author: <input value={newAuthor} onChange={handleAuthorChange} />
-        </div>
-        <div>
-          Blog URL: <input value={newBlogURL} onChange={handleBlogURLChange} />
-        </div>
-        <div>
-          <button type="submit">Add Blog</button>
-        </div>
-      </form>
+      <Form
+        addListEntry={addListEntry}
+        handleTitleChange={handleTitleChange}
+        handleAuthorChange={handleAuthorChange}
+        handleBlogURLChange={handleBlogURLChange}
+        newTitle={newTitle}
+        newAuthor={newAuthor}
+        newBlogURL={newBlogURL}
+      />
     </div>
   );
 };

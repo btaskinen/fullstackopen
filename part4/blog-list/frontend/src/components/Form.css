@@ -1,0 +1,63 @@
+.Form {
+  display: flex;
+  padding-left: 20px;
+  max-width: 360px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+}
+
+.Form_inputField {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px 10px 20px;
+  align-self: flex-start;
+}
+
+.Form_inputField:last-child {
+  display: flex;
+  flex-direction: column;
+  padding-right: 20px;
+}
+
+.Form_inputField > input {
+  background-color: var(--light);
+  color: #ffffff;
+  padding: 5px;
+  border: 2px solid var(--border);
+  border-radius: 5px;
+  height: 30px;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.Form_inputField > input:focus {
+  background-color: var(--darker);
+  border: 2px solid var(--border);
+  outline: none;
+}
+
+.Form_addButton {
+  align-self: flex-end;
+  width: 80px;
+  height: 40px;
+  border: 3px solid var(--border);
+  border-radius: 5px;
+  color: white;
+  background-color: var(--darker);
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+}
+
+.Form_addButton:hover {
+  color: var(--background);
+  background-color: var(--dark);
+}
+
+.Form_addButton:active {
+  border: 3px solid var(--background);
+}
