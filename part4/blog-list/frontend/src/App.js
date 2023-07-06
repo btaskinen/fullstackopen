@@ -22,6 +22,26 @@ const App = () => {
     console.log(newTitle);
     console.log(newAuthor);
     console.log(newBlogURL);
+    const urlAlreadyInBlogList = storedBlogs.some(
+      (blog) => blog.url === newBlogURL
+    );
+
+    if (urlAlreadyInBlogList) {
+      console.log('Blog is already in the List.');
+    } else {
+      const newBlogEntry = {
+        title: newTitle,
+        author: newAuthor,
+        url: newBlogURL,
+      };
+
+      blogServices.createBlog(newBlogEntry).then((returnedBlog) => {
+        setStoredBlogs(storedBlogs.concat(returnedBlog));
+        console.log(
+          `Blog ${newTitle} was successfully added to the Blog List!`
+        );
+      });
+    }
     setNewAuthor('');
     setNewTitle('');
     setNewBlogURL('');

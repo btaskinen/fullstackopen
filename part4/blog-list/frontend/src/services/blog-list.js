@@ -7,6 +7,12 @@ const getAllBlogs = () => {
   return request.then((response) => response.data);
 };
 
+const createBlog = (newBlog) => {
+  const request = axios.post(baseUrl, newBlog);
+  return request.then((response) => response.data);
+};
+
 export default {
   getAllBlogs,
+  createBlog,
 };
