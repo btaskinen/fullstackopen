@@ -2,7 +2,7 @@
 import React from 'react';
 import './Blogs.css';
 
-const Blogs = ({ storedBlogs }) => {
+const Blogs = ({ storedBlogs, deleteBlog }) => {
   return (
     <div className="Blogs">
       {storedBlogs.map((blog, index) => {
@@ -29,6 +29,12 @@ const Blogs = ({ storedBlogs }) => {
               <strong>Likes:</strong>
             </p>
             <p>{blog.likes}</p>
+            <button type="button" className="Blogs_Button">
+              Like
+            </button>
+            <button type="button" onClick={deleteBlog} className="Blogs_Button">
+              Delete
+            </button>
           </div>
         );
       })}

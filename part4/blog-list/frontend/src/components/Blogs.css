@@ -20,3 +20,14 @@
 .Blogs_blogEntry.light {
   background-color: var(--light);
 }
+
+.Blogs_Button {
+  width: fit-content;
+  color: #ffffff;
+  background-color: var(--dark);
+  border-radius: 5px;
+  border: 2px solid var(--border);
+  font-family: inherit;
+  font-size: inherit;
+  margin: 6px;
+}
