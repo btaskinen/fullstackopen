@@ -50,6 +50,14 @@ app.post('/api/blogs', (request, response, next) => {
     .catch((error) => next(error));
 });
 
+app.delete('/api/blogs/:id', (request, response, next) => {
+  Blog.findByIdAndRemove(request.params.id)
+    .then(() => {
+      response.status(204).end();
+    })
+    .catch((error) => next(error));
+});
+
 app.use(unknownEndpoint);
 
 const PORT = process.env.PORT;
