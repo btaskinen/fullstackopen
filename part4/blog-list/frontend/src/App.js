@@ -47,6 +47,18 @@ const App = () => {
     setNewBlogURL('');
   };
 
+  const deleteBlog = (blog) => {
+    console.log(blog);
+    if (window.confirm(`Delete ${blog.title}?`)) {
+      blogServices.deleteBlog(blog).then((response) => {
+        setStoredBlogs(
+          storedBlogs.filter((storedBlog) => storedBlog.id !== blog.id)
+        );
+        console.log(`Blog ${response}`);
+      });
+    }
+  };
+
   const handleTitleChange = (event) => {
     setNewTitle(event.target.value);
   };
@@ -65,7 +77,7 @@ const App = () => {
     <div className="App">
       <h1>Blog List</h1>
       <p>A list of interesting blogs found on the internet.</p>
-      <Blogs storedBlogs={storedBlogs} />
+      <Blogs storedBlogs={storedBlogs} deleteBlog={deleteBlog} />
       <Form
         addListEntry={addListEntry}
         handleTitleChange={handleTitleChange}

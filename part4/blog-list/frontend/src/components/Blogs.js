@@ -32,7 +32,11 @@ const Blogs = ({ storedBlogs, deleteBlog }) => {
             <button type="button" className="Blogs_Button">
               Like
             </button>
-            <button type="button" onClick={deleteBlog} className="Blogs_Button">
+            <button
+              type="button"
+              onClick={() => deleteBlog(blog)}
+              className="Blogs_Button"
+            >
               Delete
             </button>
           </div>
