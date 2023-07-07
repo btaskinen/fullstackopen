@@ -2,7 +2,7 @@
 import React from 'react';
 import './Blogs.css';
 
-const Blogs = ({ storedBlogs, deleteBlog }) => {
+const Blogs = ({ storedBlogs, deleteBlog, addLike }) => {
   return (
     <div className="Blogs">
       {storedBlogs.map((blog, index) => {
@@ -29,7 +29,11 @@ const Blogs = ({ storedBlogs, deleteBlog }) => {
               <strong>Likes:</strong>
             </p>
             <p>{blog.likes}</p>
-            <button type="button" className="Blogs_Button">
+            <button
+              type="button"
+              className="Blogs_Button"
+              onClick={() => addLike(blog)}
+            >
               Like
             </button>
             <button

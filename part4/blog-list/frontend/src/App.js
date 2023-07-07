@@ -59,6 +59,24 @@ const App = () => {
     }
   };
 
+  const addLike = (blog) => {
+    const newLikes = blog.likes + 1;
+
+    const updatedBlog = {
+      ...blog,
+      likes: newLikes,
+    };
+
+    blogServices.updateBlog(blog.id, updatedBlog).then((returnedBlog) => {
+      setStoredBlogs(
+        storedBlogs.map((blog) => {
+          return blog.id !== updatedBlog.id ? blog : returnedBlog;
+        })
+      );
+      console.log('Like was successfully registered');
+    });
+  };
+
   const handleTitleChange = (event) => {
     setNewTitle(event.target.value);
   };
@@ -77,7 +95,11 @@ const App = () => {
     <div className="App">
       <h1>Blog List</h1>
       <p>A list of interesting blogs found on the internet.</p>
-      <Blogs storedBlogs={storedBlogs} deleteBlog={deleteBlog} />
+      <Blogs
+        storedBlogs={storedBlogs}
+        deleteBlog={deleteBlog}
+        addLike={addLike}
+      />
       <Form
         addListEntry={addListEntry}
         handleTitleChange={handleTitleChange}

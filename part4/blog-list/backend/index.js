@@ -59,6 +59,20 @@ app.post('/api/blogs', (request, response, next) => {
     .catch((error) => next(error));
 });
 
+app.put('/api/blogs/:id', (request, response, next) => {
+  const { title, author, url, likes } = request.body;
+
+  Blog.findByIdAndUpdate(
+    request.params.id,
+    { title, author, url, likes },
+    { new: true }
+  )
+    .then((updatedBlog) => {
+      response.json(updatedBlog);
+    })
+    .catch((error) => next(error));
+});
+
 app.delete('/api/blogs/:id', (request, response, next) => {
   Blog.findByIdAndRemove(request.params.id)
     .then(() => {

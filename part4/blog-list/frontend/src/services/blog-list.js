@@ -12,6 +12,11 @@ const createBlog = (newBlog) => {
   return request.then((response) => response.data);
 };
 
+const updateBlog = (id, updatedBlog) => {
+  const request = axios.put(`${baseUrl}/${id}`, updatedBlog);
+  return request.then((response) => response.data);
+};
+
 const deleteBlog = (blog) => {
   const request = axios.delete(`${baseUrl}/${blog.id}`);
   return request.then(() => `"${blog.title}" was successfully deleted.`);
@@ -20,5 +25,6 @@ const deleteBlog = (blog) => {
 export default {
   getAllBlogs,
   createBlog,
+  updateBlog,
   deleteBlog,
 };
