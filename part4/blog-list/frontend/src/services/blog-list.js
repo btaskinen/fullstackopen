@@ -19,7 +19,7 @@ const updateBlog = (id, updatedBlog) => {
 
 const deleteBlog = (blog) => {
   const request = axios.delete(`${baseUrl}/${blog.id}`);
-  return request.then(() => `"${blog.title}" was successfully deleted.`);
+  return request.then(() => `"Blog ${blog.title}" was successfully deleted.`);
 };
 
 export default {

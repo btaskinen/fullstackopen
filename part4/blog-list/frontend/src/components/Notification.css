@@ -1,0 +1,20 @@
+.Notification {
+  width: 100%;
+  color: #ffffff;
+  font-weight: bold;
+  text-align: center;
+  border: 3px solid var(--border);
+  border-radius: 5px;
+  padding: 10px;
+  z-index: 1;
+  position: fixed;
+  top: 0;
+}
+
+.Notification.success {
+  background-color: var(--light);
+}
+
+.Notification.error {
+  background-color: var(--darker);
+}
