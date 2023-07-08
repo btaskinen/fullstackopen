@@ -21,6 +21,20 @@
   background-color: var(--light);
 }
 
+.Blogs_blogEntry > * a {
+  color: #ffffff;
+}
+
+.Blogs_blogEntry.dark > * a:hover {
+  color: var(--darker);
+  background-color: #ffffff;
+}
+
+.Blogs_blogEntry.light > * a:hover {
+  color: var(--light);
+  background-color: #ffffff;
+}
+
 .Blogs_Button {
   width: fit-content;
   color: #ffffff;

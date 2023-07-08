@@ -24,7 +24,9 @@ const Blogs = ({ storedBlogs, deleteBlog, addLike }) => {
             <p>
               <strong>URL:</strong>
             </p>
-            <p>{blog.url}</p>
+            <p>
+              <a href={blog.url}>{blog.url}</a>
+            </p>
             <p>
               <strong>Likes:</strong>
             </p>
