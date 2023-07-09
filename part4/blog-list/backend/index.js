@@ -1,6 +1,6 @@
-require('dotenv').config();
 const express = require('express');
 const app = express();
+const config = require('./utils/config');
 const logger = require('./utils/logger');
 const cors = require('cors');
 const Blog = require('./models/blog-entry');
@@ -89,7 +89,6 @@ app.use(unknownEndpoint);
 
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 3003;
-app.listen(PORT, () => {
-  logger.info(`Server running on port ${PORT}`);
+app.listen(config.PORT, () => {
+  logger.info(`Server running on port ${config.PORT}`);
 });
