@@ -1,19 +1,4 @@
-const config = require('../utils/config');
 const mongoose = require('mongoose');
-
-mongoose.set('strictQuery', false);
-
-const mongoUrl = config.MONGODB_URI;
-
-console.log('connecting to', mongoUrl);
-mongoose
-  .connect(mongoUrl)
-  .then(() => {
-    console.log('connected to MongoDB');
-  })
-  .catch((error) => {
-    console.log('error connecting to MongoDB', error.message);
-  });
 
 const blogSchema = new mongoose.Schema({
   title: String,
