@@ -31,6 +31,15 @@ const App = () => {
 
     if (urlAlreadyInBlogList) {
       console.log('Blog is already in the List.');
+      setNotification(`Blog "${newTitle}" is already in the List`);
+      setNotificationColor('error');
+      setTimeout(() => {
+        setNotification(null);
+        setNotificationColor('success');
+      }, 5000);
+      setNewAuthor('');
+      setNewTitle('');
+      setNewBlogURL('');
     } else {
       const newBlogEntry = {
         title: newTitle,
