@@ -56,6 +56,45 @@ test('successfully save new blog post', async () => {
   expect(titles).toContain('Save New Blog Post');
 });
 
+test('add new blog post without title', async () => {
+  const newBlog = {
+    author: 'James Tester',
+    url: 'https://testing.com/newBlogPost',
+  };
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+    .expect('{"error":"Title is missing!"}');
+});
+
+test('add new blog post without author', async () => {
+  const newBlog = {
+    title: 'New Test Blog',
+    url: 'https://testing.com/newBlogPost',
+  };
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+    .expect('{"error":"Author is missing!"}');
+});
+
+test('add new blog post without url', async () => {
+  const newBlog = {
+    title: 'New Test Blog',
+    author: 'James Tester',
+  };
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+    .expect('{"error":"URL is missing!"}');
+});
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
