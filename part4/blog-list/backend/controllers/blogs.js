@@ -16,7 +16,7 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs);
 });
 
-blogsRouter.post('/', (request, response, next) => {
+blogsRouter.post('/', async (request, response, next) => {
   const { title, author, url } = request.body;
 
   if (!title) return response.status(400).json({ error: 'Title is missing!' });
@@ -31,12 +31,12 @@ blogsRouter.post('/', (request, response, next) => {
     likes: 0,
   });
 
-  blog
-    .save()
-    .then((savedBlog) => {
-      response.status(201).json(savedBlog);
-    })
-    .catch((error) => next(error));
+  try {
+    const savedBlog = await blog.save();
+    response.status(201).json(savedBlog);
+  } catch (exeption) {
+    next(exeption);
+  }
 });
 
 blogsRouter.put('/:id', (request, response, next) => {
