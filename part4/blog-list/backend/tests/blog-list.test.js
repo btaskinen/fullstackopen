@@ -95,6 +95,19 @@ test('add new blog post without url', async () => {
     .expect('{"error":"URL is missing!"}');
 });
 
+test('verify value of linkes in new blog', async () => {
+  const newBlog = {
+    title: 'Save New Blog Post',
+    author: 'James Tester',
+    url: 'https://testing.com/newBlogPost',
+  };
+
+  const response = await api.post('/api/blogs').send(newBlog);
+
+  expect(response.status).toEqual(201);
+  expect(response.body.likes).toEqual(0);
+});
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
