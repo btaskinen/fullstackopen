@@ -35,6 +35,27 @@ test('id property is correctly formatted', async () => {
   expect(response.body[0].id).toBeDefined();
 });
 
+test('successfully save new blog post', async () => {
+  const newBlog = {
+    title: 'Save New Blog Post',
+    author: 'James Tester',
+    url: 'https://testing.com/newBlogPost',
+  };
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/);
+
+  const blogsAtEnd = await helper.blogsInDb();
+
+  const titles = blogsAtEnd.map((blog) => blog.title);
+
+  expect(titles).toHaveLength(helper.initialBlogs.length + 1);
+  expect(titles).toContain('Save New Blog Post');
+});
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
