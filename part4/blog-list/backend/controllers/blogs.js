@@ -44,7 +44,7 @@ blogsRouter.put('/:id', (request, response, next) => {
     { new: true }
   )
     .then((updatedBlog) => {
-      response.json(updatedBlog);
+      response.status(200).json(updatedBlog);
     })
     .catch((error) => next(error));
 });

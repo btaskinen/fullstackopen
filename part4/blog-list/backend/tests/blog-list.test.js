@@ -122,6 +122,30 @@ test('delete single blog post', async () => {
   expect(titles).not.toContain(blogToBeDeleted.title);
 });
 
+test('update links in blog post', async () => {
+  const blogsAtStart = await helper.blogsInDb();
+
+  const blogToBeUpdated = blogsAtStart[0];
+
+  const updatedBlog = {
+    title: blogToBeUpdated.title,
+    author: blogToBeUpdated.author,
+    url: blogToBeUpdated.url,
+    likes: blogToBeUpdated.likes + 1,
+  };
+
+  await api
+    .put(`/api/blogs/${blogToBeUpdated.id}`)
+    .send(updatedBlog)
+    .expect(200);
+
+  const blogsAtEnd = await helper.blogsInDb();
+
+  const blogAfterUpdating = blogsAtEnd[0];
+
+  expect(blogAfterUpdating.likes).toEqual(helper.initialBlogs[0].likes + 1);
+});
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
