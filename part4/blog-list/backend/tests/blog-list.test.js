@@ -108,6 +108,20 @@ test('verify value of linkes in new blog', async () => {
   expect(response.body.likes).toEqual(0);
 });
 
+test('delete single blog post', async () => {
+  const blogsAtStart = await helper.blogsInDb();
+
+  const blogToBeDeleted = blogsAtStart[0];
+
+  await api.delete(`/api/blogs/${blogToBeDeleted.id}`).expect(204);
+
+  const blogsAtEnd = await helper.blogsInDb();
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1);
+
+  const titles = blogsAtEnd.map((blog) => blog.title);
+  expect(titles).not.toContain(blogToBeDeleted.title);
+});
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
