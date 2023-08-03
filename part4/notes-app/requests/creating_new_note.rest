@@ -1,8 +1,8 @@
 POST http://localhost:3001/api/notes
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG5ueSIsImlkIjoiNjRjYjgyZDcwYzIzNGQxOTA2Yzk5NTM4IiwiaWF0IjoxNjkxMDYxMjA0LCJleHAiOjE2OTEwNjEyNjR9.TPgO1VYOjKAR6qJeS_-8E4yt7ki2xWvPTEVTD1PEbDs
 
 {
-  "content": "User id of the note creator is at the start sent along the request",
-  "important": true,
-  "userId": "64c78daa4901c3fa09dc13ae"
+  "content": "Creating new note with expired JWT",
+  "important": false
 }
