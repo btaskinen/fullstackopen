@@ -183,6 +183,117 @@ describe('user test when there is initially one user in db', () => {
     const usernames = usersAtEnd.map((user) => user.username);
     expect(usernames).toContain(newUser.username);
   });
+
+  test('new user with missing username', async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const newUser = {
+      name: 'Second User',
+      password: 'password2',
+    };
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect(
+        '{"error":"User validation failed: username: Path `username` is required."}'
+      );
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toHaveLength(usersAtStart.length);
+
+    const usernames = usersAtEnd.map((user) => user.username);
+    expect(usernames).not.toContain(newUser.username);
+  });
+
+  test('new user with too short username', async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const newUser = {
+      username: '2',
+      name: 'Second User',
+      password: 'password2',
+    };
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect(
+        '{"error":"User validation failed: username: Username must be at least 3 characters!"}'
+      );
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toHaveLength(usersAtStart.length);
+
+    const usernames = usersAtEnd.map((user) => user.username);
+    expect(usernames).not.toContain(newUser.username);
+  });
+
+  test('new user with missing name', async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const newUser = {
+      username: 'SecondUser',
+      password: 'password2',
+    };
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('{"error":"Name is missing!"}');
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toHaveLength(usersAtStart.length);
+
+    const usernames = usersAtEnd.map((user) => user.username);
+    expect(usernames).not.toContain(newUser.username);
+  });
+
+  test('new user with missing password', async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const newUser = {
+      username: 'SecondUser',
+      name: 'Second User',
+    };
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('{"error":"Password is missing!"}');
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toHaveLength(usersAtStart.length);
+
+    const usernames = usersAtEnd.map((user) => user.username);
+    expect(usernames).not.toContain(newUser.username);
+  });
+
+  test('new user with too short password', async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const newUser = {
+      username: 'SecondUser',
+      name: 'Second User',
+      password: 'PW',
+    };
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('{"error":"Password must be at least 3 characters long!"}');
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toHaveLength(usersAtStart.length);
+
+    const usernames = usersAtEnd.map((user) => user.username);
+    expect(usernames).not.toContain(newUser.username);
+  });
 });
 
 afterAll(async () => {
