@@ -2,9 +2,10 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "Writing a Node Library in Rust",
-  "author": "Ninad Sinha",
-  "url": "https://blog.metlo.com/writing-a-node-library-in-rust/"
+  "title": "Adding new blog with that is linked to user",
+  "author": "Test Tester",
+  "url": "https://test.blog.com",
+  "userId": "64cb9de1a5217d8ac4f1a22d"
 }
 
 
