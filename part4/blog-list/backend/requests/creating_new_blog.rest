@@ -1,11 +1,11 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRzbWl0aCIsImlkIjoiNjRjY2FiOGMzZGQzMzZmMTdiMTE3MmQ2IiwiaWF0IjoxNjkxMTM1NzQ1LCJleHAiOjE2OTExMzU4MDV9.r5tI5xGoSZLkJItRdAuPpedavd8akJ4jQwNpb4d8bVs
 
 {
-  "title": "Adding new blog with that is linked to user",
-  "author": "Test Tester",
-  "url": "https://test.blog.com",
-  "userId": "64cb9de1a5217d8ac4f1a22d"
+  "title": "JWT are good for user authentication",
+  "author": "John Expert",
+  "url": "https://userauthentication101.com"
 }
 
 
