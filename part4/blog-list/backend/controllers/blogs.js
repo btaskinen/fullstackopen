@@ -28,8 +28,6 @@ blogsRouter.post('/', async (request, response) => {
     return response.status(401).json({ error: 'token invalid' });
   }
 
-  console.log('User: ', request.user);
-
   const user = request.user;
 
   if (!title) return response.status(400).json({ error: 'Title is missing!' });
@@ -65,7 +63,6 @@ blogsRouter.put('/:id', async (request, response) => {
 
 blogsRouter.delete('/:id', async (request, response) => {
   const token = request.token;
-  console.log('decoded Token: ', token);
   if (!token.id) {
     return response.status(401).json({ error: 'token invalid' });
   }

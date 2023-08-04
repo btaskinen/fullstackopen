@@ -38,3 +38,14 @@ Content-Type: application/json
   "title": "How to Get an Error",
   "author": "Brian Smith"
 }
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Advanced Middleware",
+  "author": "Mike Teller",
+  "url": "https://middlewaremage.com/advanced_middleware"
+}

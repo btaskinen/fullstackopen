@@ -1,6 +1,11 @@
 const Blog = require('../models/blog-entry');
 const User = require('../models/user');
 
+const userCredentials = {
+  username: 'FirstUser',
+  password: 'password1',
+};
+
 const initialBlogs = [
   {
     title: 'Mastering TypeScript: 20 Best Practices for Improved Code Quality',
@@ -65,6 +70,7 @@ const usersInDb = async () => {
 };
 
 module.exports = {
+  userCredentials,
   initialBlogs,
   blogsInDb,
   usersInDb,
