@@ -178,7 +178,7 @@ const App = () => {
       setPassword('');
     } catch (exception) {
       setNotificationColor('error');
-      setNotification('Wrong credentials');
+      setNotification('Wrong username or password');
       setTimeout(() => {
         setNotificationColor('success');
         setNotification(null);
