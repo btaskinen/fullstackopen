@@ -4,6 +4,7 @@ import Blogs from './components/Blogs';
 import Form from './components/Form';
 import Notification from './components/Notification';
 import blogServices from './services/blog-list';
+import loginServices from './services/login';
 import './App.css';
 
 const App = () => {
@@ -13,12 +14,17 @@ const App = () => {
   const [newBlogURL, setNewBlogURL] = useState('');
   const [notification, setNotification] = useState(null);
   const [notificationColor, setNotificationColor] = useState('success');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    blogServices.getAllBlogs().then((storedBlogs) => {
-      setStoredBlogs(storedBlogs);
-    });
-  }, []);
+    if (user) {
+      blogServices.getAllBlogs().then((storedBlogs) => {
+        setStoredBlogs(storedBlogs);
+      });
+    }
+  }, [user]);
 
   const addListEntry = (event) => {
     event.preventDefault();
@@ -144,6 +150,52 @@ const App = () => {
 
   console.log(storedBlogs);
 
+  const handleLogin = async (event) => {
+    event.preventDefault();
+
+    try {
+      const user = await loginServices.login({
+        username,
+        password,
+      });
+      blogServices.setToken(user.token);
+      setUser(user);
+      setUsername('');
+      setPassword('');
+    } catch (exception) {
+      setNotificationColor('error');
+      setNotification('Wrong credentials');
+      setTimeout(() => {
+        setNotificationColor('success');
+        setNotification(null);
+      }, 5000);
+    }
+  };
+
+  const loginForm = () => (
+    <form onSubmit={handleLogin}>
+      <div>
+        username
+        <input
+          type="text"
+          value={username}
+          name="Username"
+          onChange={({ target }) => setUsername(target.value)}
+        />
+      </div>
+      <div>
+        password
+        <input
+          type="password"
+          value={password}
+          name="Password"
+          onChange={({ target }) => setPassword(target.value)}
+        />
+      </div>
+      <button type="submit">login</button>
+    </form>
+  );
+
   return (
     <div className="App">
       <h1>Blog List</h1>
@@ -152,20 +204,31 @@ const App = () => {
         Fill out the form below and click &quot;Add Blog&quot; to add your
         favorite blog.
       </p>
-      <Form
-        addListEntry={addListEntry}
-        handleTitleChange={handleTitleChange}
-        handleAuthorChange={handleAuthorChange}
-        handleBlogURLChange={handleBlogURLChange}
-        newTitle={newTitle}
-        newAuthor={newAuthor}
-        newBlogURL={newBlogURL}
-      />
-      <Blogs
-        storedBlogs={storedBlogs}
-        deleteBlog={deleteBlog}
-        addLike={addLike}
-      />
+      {user && (
+        <div>
+          <p>{user.name} is logged in</p>
+        </div>
+      )}
+      {user === null ? (
+        loginForm()
+      ) : (
+        <>
+          <Form
+            addListEntry={addListEntry}
+            handleTitleChange={handleTitleChange}
+            handleAuthorChange={handleAuthorChange}
+            handleBlogURLChange={handleBlogURLChange}
+            newTitle={newTitle}
+            newAuthor={newAuthor}
+            newBlogURL={newBlogURL}
+          />
+          <Blogs
+            storedBlogs={storedBlogs}
+            deleteBlog={deleteBlog}
+            addLike={addLike}
+          />
+        </>
+      )}
       <Notification message={notification} color={notificationColor} />
     </div>
   );
