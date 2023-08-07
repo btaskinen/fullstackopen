@@ -27,6 +27,15 @@ const App = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogListAppUser');
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON);
+      setUser(user);
+      blogServices.setToken(user.token);
+    }
+  }, []);
+
   const addListEntry = (event) => {
     event.preventDefault();
     console.log(newTitle);
@@ -159,6 +168,10 @@ const App = () => {
         username,
         password,
       });
+      window.localStorage.setItem(
+        'loggedBlogListAppUser',
+        JSON.stringify(user)
+      );
       blogServices.setToken(user.token);
       setUser(user);
       setUsername('');
@@ -173,12 +186,24 @@ const App = () => {
     }
   };
 
+  const handleLogout = () => {
+    window.localStorage.removeItem('loggedBlogListAppUser');
+    setUser(null);
+  };
+
   return (
     <div className="App">
       <h1>Blog List</h1>
       {user && (
         <div className="App_loggedInUser">
-          <p>{user.name} is logged in</p>
+          <p>{user.name} is logged in.</p>
+          <button
+            className="App_logoutButton"
+            type="button"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
         </div>
       )}
       <p>A list of interesting blogs found on the internet.</p>
