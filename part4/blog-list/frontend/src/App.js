@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import Blogs from './components/Blogs';
 import Form from './components/Form';
+import LoginForm from './components/LoginForm';
 import Notification from './components/Notification';
 import blogServices from './services/blog-list';
 import loginServices from './services/login';
@@ -172,47 +173,32 @@ const App = () => {
     }
   };
 
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-        <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
-        <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>
-  );
-
   return (
     <div className="App">
       <h1>Blog List</h1>
-      <p>A list of interesting blogs found on the internet.</p>
-      <p>
-        Fill out the form below and click &quot;Add Blog&quot; to add your
-        favorite blog.
-      </p>
       {user && (
-        <div>
+        <div className="App_loggedInUser">
           <p>{user.name} is logged in</p>
         </div>
       )}
+      <p>A list of interesting blogs found on the internet.</p>
       {user === null ? (
-        loginForm()
+        <>
+          <p>Login with your credentials to see and create blog listings.</p>
+          <LoginForm
+            username={username}
+            setUsername={setUsername}
+            password={password}
+            setPassword={setPassword}
+            handleLogin={handleLogin}
+          />
+        </>
       ) : (
         <>
+          <p>
+            Fill out the form below and click &quot;Add Blog&quot; to add your
+            favorite blog.
+          </p>
           <Form
             addListEntry={addListEntry}
             handleTitleChange={handleTitleChange}
