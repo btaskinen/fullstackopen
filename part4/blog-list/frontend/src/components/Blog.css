@@ -1,41 +1,37 @@
-.Blogs {
-  padding: 20px;
-}
-
-.Blogs_blogEntry {
+.Blog {
   display: grid;
   grid-template-columns: 1fr 10fr;
   color: #ffffff;
   padding: 10px;
 }
 
-.Blogs_blogEntry > p {
+.Blog > p {
   padding: 6px;
 }
 
-.Blogs_blogEntry.dark {
+.Blog.dark {
   background-color: var(--darker);
 }
 
-.Blogs_blogEntry.light {
+.Blog.light {
   background-color: var(--light);
 }
 
-.Blogs_blogEntry > * a {
+.Blog > * a {
   color: #ffffff;
 }
 
-.Blogs_blogEntry.dark > * a:hover {
+.Blog.dark > * a:hover {
   color: var(--darker);
   background-color: #ffffff;
 }
 
-.Blogs_blogEntry.light > * a:hover {
+.Blog.light > * a:hover {
   color: var(--light);
   background-color: #ffffff;
 }
 
-.Blogs_Button {
+.Blog_Button {
   width: fit-content;
   color: #ffffff;
   background-color: var(--dark);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
-import Blogs from './components/Blogs';
+import Blog from './components/Blog';
 import Form from './components/Form';
 import LoginForm from './components/LoginForm';
 import Notification from './components/Notification';
@@ -191,11 +191,20 @@ const App = () => {
               setNotificationColor={setNotificationColor}
             />
           </Togglable>
-          <Blogs
-            storedBlogs={storedBlogs}
-            deleteBlog={deleteBlog}
-            addLike={addLike}
-          />
+          <div className="App_blogs">
+            {storedBlogs.map((blog, index) => {
+              console.log(blog);
+              return (
+                <Blog
+                  key={blog.id}
+                  index={index}
+                  blog={blog}
+                  deleteBlog={deleteBlog}
+                  addLike={addLike}
+                />
+              );
+            })}
+          </div>
         </>
       )}
       <Notification message={notification} color={notificationColor} />
