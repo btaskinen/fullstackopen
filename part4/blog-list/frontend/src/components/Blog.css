@@ -1,12 +1,32 @@
 .Blog {
-  display: grid;
-  grid-template-columns: 1fr 10fr;
+  display: flex;
+  flex-direction: column;
   color: #ffffff;
   padding: 10px;
 }
 
 .Blog > p {
   padding: 6px;
+}
+
+.Blog_title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Blog_details {
+  display: grid;
+  grid-template-columns: 1fr 10fr 1fr;
+}
+
+.Blog_authorValue {
+  grid-column-start: 2;
+  grid-column-end: 4;
+}
+
+.Blog_urlValue {
+  grid-column-start: 2;
+  grid-column-end: 4;
 }
 
 .Blog.dark {
@@ -40,4 +60,18 @@
   font-family: inherit;
   font-size: inherit;
   margin: 6px;
+}
+
+.Blog_Button:hover {
+  color: var(--dark);
+  background-color: var(--background);
+}
+
+.Blog_Button:active {
+  border: 3px solid var(--background);
+}
+
+.Blog_viewButton {
+  height: 30px;
+  align-self: center;
 }
