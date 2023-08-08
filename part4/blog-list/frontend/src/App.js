@@ -11,9 +11,6 @@ import Togglable from './components/Togglable';
 
 const App = () => {
   const [storedBlogs, setStoredBlogs] = useState([]);
-  const [newTitle, setNewTitle] = useState('');
-  const [newAuthor, setNewAuthor] = useState('');
-  const [newBlogURL, setNewBlogURL] = useState('');
   const [notification, setNotification] = useState(null);
   const [notificationColor, setNotificationColor] = useState('success');
   const [username, setUsername] = useState('');
@@ -39,61 +36,31 @@ const App = () => {
     }
   }, []);
 
-  const addListEntry = (event) => {
-    event.preventDefault();
-    console.log(newTitle);
-    console.log(newAuthor);
-    console.log(newBlogURL);
-    const urlAlreadyInBlogList = storedBlogs.some(
-      (blog) => blog.url === newBlogURL
-    );
-
-    if (urlAlreadyInBlogList) {
-      console.log('Blog is already in the List.');
-      setNotification(`Blog "${newTitle}" is already in the List`);
-      setNotificationColor('error');
-      setTimeout(() => {
-        setNotification(null);
-        setNotificationColor('success');
-      }, 5000);
-      setNewAuthor('');
-      setNewTitle('');
-      setNewBlogURL('');
-    } else {
-      const newBlogEntry = {
-        title: newTitle,
-        author: newAuthor,
-        url: newBlogURL,
-      };
-
-      blogServices
-        .createBlog(newBlogEntry)
-        .then((returnedBlog) => {
-          setStoredBlogs(storedBlogs.concat(returnedBlog));
-          console.log(
-            `Blog ${newTitle} was successfully added to the Blog List!`
-          );
-          setNotification(
-            `Blog "${newTitle}" was successfully added to the Blog List!`
-          );
-          setTimeout(() => {
-            setNotification(null);
-          }, 5000);
-          setNewAuthor('');
-          setNewTitle('');
-          setNewBlogURL('');
-          addBlogRef.current.toggleVisibility();
-        })
-        .catch((error) => {
-          console.log(error.response.data.error);
-          setNotification(`${error.response.data.error}`);
-          setNotificationColor('error');
-          setTimeout(() => {
-            setNotification(null);
-            setNotificationColor('success');
-          }, 5000);
-        });
-    }
+  const addListEntry = (blogObject) => {
+    blogServices
+      .createBlog(blogObject)
+      .then((returnedBlog) => {
+        setStoredBlogs(storedBlogs.concat(returnedBlog));
+        console.log(
+          `Blog ${blogObject.title} was successfully added to the Blog List!`
+        );
+        setNotification(
+          `Blog "${blogObject.title}" was successfully added to the Blog List!`
+        );
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
+        addBlogRef.current.toggleVisibility();
+      })
+      .catch((error) => {
+        console.log(error.response.data.error);
+        setNotification(`${error.response.data.error}`);
+        setNotificationColor('error');
+        setTimeout(() => {
+          setNotification(null);
+          setNotificationColor('success');
+        }, 5000);
+      });
   };
 
   const deleteBlog = (blog) => {
@@ -148,18 +115,6 @@ const App = () => {
           setNotificationColor('success');
         }, 5000);
       });
-  };
-
-  const handleTitleChange = (event) => {
-    setNewTitle(event.target.value);
-  };
-
-  const handleAuthorChange = (event) => {
-    setNewAuthor(event.target.value);
-  };
-
-  const handleBlogURLChange = (event) => {
-    setNewBlogURL(event.target.value);
   };
 
   console.log(storedBlogs);
@@ -231,12 +186,9 @@ const App = () => {
           <Togglable buttonLabel="Add blog" ref={addBlogRef}>
             <Form
               addListEntry={addListEntry}
-              handleTitleChange={handleTitleChange}
-              handleAuthorChange={handleAuthorChange}
-              handleBlogURLChange={handleBlogURLChange}
-              newTitle={newTitle}
-              newAuthor={newAuthor}
-              newBlogURL={newBlogURL}
+              storedBlogs={storedBlogs}
+              setNotification={setNotification}
+              setNotificationColor={setNotificationColor}
             />
           </Togglable>
           <Blogs

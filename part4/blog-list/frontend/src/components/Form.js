@@ -1,18 +1,57 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import { React, useState } from 'react';
 import './Form.css';
 
 const Form = ({
   addListEntry,
-  handleTitleChange,
-  handleAuthorChange,
-  handleBlogURLChange,
-  newTitle,
-  newAuthor,
-  newBlogURL,
+  storedBlogs,
+  setNotification,
+  setNotificationColor,
 }) => {
+  const [newTitle, setNewTitle] = useState('');
+  const [newAuthor, setNewAuthor] = useState('');
+  const [newBlogURL, setNewBlogURL] = useState('');
+
+  const handleTitleChange = (event) => {
+    setNewTitle(event.target.value);
+  };
+
+  const handleAuthorChange = (event) => {
+    setNewAuthor(event.target.value);
+  };
+
+  const handleBlogURLChange = (event) => {
+    setNewBlogURL(event.target.value);
+  };
+
+  const addBlog = (event) => {
+    event.preventDefault();
+    const urlAlreadyInBlogList = storedBlogs.some(
+      (blog) => blog.url === newBlogURL
+    );
+
+    if (urlAlreadyInBlogList) {
+      console.log('Blog is already in the List.');
+      setNotification(`Blog "${newTitle}" is already in the List`);
+      setNotificationColor('error');
+      setTimeout(() => {
+        setNotification(null);
+        setNotificationColor('success');
+      }, 5000);
+    } else {
+      addListEntry({
+        title: newTitle,
+        author: newAuthor,
+        url: newBlogURL,
+      });
+      setNewAuthor('');
+      setNewTitle('');
+      setNewBlogURL('');
+    }
+  };
+
   return (
-    <form className="Form" onSubmit={addListEntry}>
+    <form className="Form" onSubmit={addBlog}>
       <div className="Form_inputField">
         Title: <input value={newTitle} onChange={handleTitleChange} />
       </div>
