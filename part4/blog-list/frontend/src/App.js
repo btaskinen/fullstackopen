@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Blogs from './components/Blogs';
 import Form from './components/Form';
 import LoginForm from './components/LoginForm';
@@ -7,6 +7,7 @@ import Notification from './components/Notification';
 import blogServices from './services/blog-list';
 import loginServices from './services/login';
 import './App.css';
+import Togglable from './components/Togglable';
 
 const App = () => {
   const [storedBlogs, setStoredBlogs] = useState([]);
@@ -18,6 +19,8 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
+
+  const addBlogRef = useRef();
 
   useEffect(() => {
     if (user) {
@@ -79,6 +82,7 @@ const App = () => {
           setNewAuthor('');
           setNewTitle('');
           setNewBlogURL('');
+          addBlogRef.current.toggleVisibility();
         })
         .catch((error) => {
           console.log(error.response.data.error);
@@ -224,15 +228,17 @@ const App = () => {
             Fill out the form below and click &quot;Add Blog&quot; to add your
             favorite blog.
           </p>
-          <Form
-            addListEntry={addListEntry}
-            handleTitleChange={handleTitleChange}
-            handleAuthorChange={handleAuthorChange}
-            handleBlogURLChange={handleBlogURLChange}
-            newTitle={newTitle}
-            newAuthor={newAuthor}
-            newBlogURL={newBlogURL}
-          />
+          <Togglable buttonLabel="Add blog" ref={addBlogRef}>
+            <Form
+              addListEntry={addListEntry}
+              handleTitleChange={handleTitleChange}
+              handleAuthorChange={handleAuthorChange}
+              handleBlogURLChange={handleBlogURLChange}
+              newTitle={newTitle}
+              newAuthor={newAuthor}
+              newBlogURL={newBlogURL}
+            />
+          </Togglable>
           <Blogs
             storedBlogs={storedBlogs}
             deleteBlog={deleteBlog}

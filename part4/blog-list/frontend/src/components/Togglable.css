@@ -1,0 +1,26 @@
+.Togglable {
+  display: flex;
+  padding-left: 20px;
+  flex-direction: column;
+}
+
+.Togglable_button {
+  width: fit-content;
+  height: 40px;
+  border: 3px solid var(--border);
+  border-radius: 5px;
+  color: white;
+  background-color: var(--darker);
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+}
+
+.Togglable_button:hover {
+  color: var(--background);
+  background-color: var(--dark);
+}
+
+.Togglable_button:active {
+  border: 3px solid var(--background);
+}
