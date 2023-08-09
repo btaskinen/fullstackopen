@@ -51,6 +51,7 @@ blogsRouter.post('/', async (request, response) => {
 });
 
 blogsRouter.put('/:id', async (request, response) => {
+  console.log('INSIDE PUT ROUTE HANDLER');
   const { title, author, url, likes } = request.body;
 
   const token = request.token;

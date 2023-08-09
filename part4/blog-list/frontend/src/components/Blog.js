@@ -2,7 +2,7 @@
 import { React, useState } from 'react';
 import './Blog.css';
 
-const Blog = ({ index, blog, deleteBlog, addLike, user }) => {
+const Blog = ({ index, blog, deleteBlog, addLike }) => {
   const [blogDetailsVisible, setVisibility] = useState(false);
   const backgroundColor = index % 2 === 0 ? 'dark' : 'light';
 
@@ -41,9 +41,7 @@ const Blog = ({ index, blog, deleteBlog, addLike, user }) => {
         <p>
           <strong>Add by User:</strong>
         </p>
-        <p className="Blog_value">
-          {blog.user.name ? blog.user.name : user.name}
-        </p>
+        <p className="Blog_value">{blog.user.name}</p>
         <p>
           <strong>Likes:</strong>
         </p>

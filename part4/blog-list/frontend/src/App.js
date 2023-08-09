@@ -40,6 +40,7 @@ const App = () => {
     blogServices
       .createBlog(blogObject)
       .then((returnedBlog) => {
+        console.log('RETURNED BLOG', returnedBlog);
         setStoredBlogs(storedBlogs.concat(returnedBlog));
         console.log(
           `Blog ${blogObject.title} was successfully added to the Blog List!`
@@ -60,6 +61,14 @@ const App = () => {
           setNotification(null);
           setNotificationColor('success');
         }, 5000);
+      })
+      .then(() => {
+        blogServices
+          .getAllBlogs()
+          .then((storedBlogs) => {
+            setStoredBlogs(storedBlogs);
+          })
+          .then(console.log('FETCHED BLOGS'));
       });
   };
 
@@ -97,6 +106,8 @@ const App = () => {
       likes: newLikes,
     };
 
+    console.log('UPDATED BLOG BEFORE SENDING', updatedBlog);
+
     blogServices
       .updateBlog(blog.id, updatedBlog)
       .then((returnedBlog) => {
@@ -115,6 +126,14 @@ const App = () => {
           setNotification(null);
           setNotificationColor('success');
         }, 5000);
+      })
+      .then(() => {
+        blogServices
+          .getAllBlogs()
+          .then((storedBlogs) => {
+            setStoredBlogs(storedBlogs);
+          })
+          .then(console.log('FETCHED BLOGS in LIKES'));
       });
   };
 
@@ -194,7 +213,6 @@ const App = () => {
           </Togglable>
           <div className="App_blogs">
             {storedBlogs.map((blog, index) => {
-              console.log(blog);
               return (
                 <Blog
                   key={blog.id}
@@ -202,7 +220,6 @@ const App = () => {
                   blog={blog}
                   deleteBlog={deleteBlog}
                   addLike={addLike}
-                  user={user}
                 />
               );
             })}
