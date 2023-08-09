@@ -13,8 +13,6 @@ const Blog = ({ index, blog, deleteBlog, addLike, user }) => {
   const displayDetails = { display: blogDetailsVisible ? '' : 'none' };
   const buttonLabel = blogDetailsVisible ? 'Hide' : 'View';
 
-  console.log('Inside Blog', blog.user.name);
-
   return (
     <div key={blog._id} className={`Blog ${backgroundColor}`}>
       <div className="Blog_title">

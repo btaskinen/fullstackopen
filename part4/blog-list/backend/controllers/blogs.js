@@ -53,11 +53,21 @@ blogsRouter.post('/', async (request, response) => {
 blogsRouter.put('/:id', async (request, response) => {
   const { title, author, url, likes } = request.body;
 
+  const token = request.token;
+
+  console.log('Token in PUT route handler: ', token);
+
+  if (!token.id) {
+    return response.status(401).json({ error: 'token invalid' });
+  }
+
   const updatedBlog = await Blog.findByIdAndUpdate(
     request.params.id,
     { title, author, url, likes },
     { new: true }
   );
+
+  console.log('Updated Blog', updatedBlog);
   response.status(200).json(updatedBlog);
 });
 

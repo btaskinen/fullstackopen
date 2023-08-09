@@ -100,6 +100,7 @@ const App = () => {
     blogServices
       .updateBlog(blog.id, updatedBlog)
       .then((returnedBlog) => {
+        console.log(returnedBlog);
         setStoredBlogs(
           storedBlogs.map((blog) => {
             return blog.id !== updatedBlog.id ? blog : returnedBlog;
