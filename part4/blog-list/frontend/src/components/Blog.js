@@ -2,7 +2,7 @@
 import { React, useState } from 'react';
 import './Blog.css';
 
-const Blog = ({ index, blog, deleteBlog, addLike }) => {
+const Blog = ({ index, blog, deleteBlog, addLike, user }) => {
   const [blogDetailsVisible, setVisibility] = useState(false);
   const backgroundColor = index % 2 === 0 ? 'dark' : 'light';
 
@@ -13,7 +13,7 @@ const Blog = ({ index, blog, deleteBlog, addLike }) => {
   const displayDetails = { display: blogDetailsVisible ? '' : 'none' };
   const buttonLabel = blogDetailsVisible ? 'Hide' : 'View';
 
-  console.log('Inside Blog', blog);
+  console.log('Inside Blog', blog.user.name);
 
   return (
     <div key={blog._id} className={`Blog ${backgroundColor}`}>
@@ -22,7 +22,7 @@ const Blog = ({ index, blog, deleteBlog, addLike }) => {
           <strong>{blog.title}</strong>
         </p>
         <button
-          className="Blog_Button Blog_viewButton"
+          className="Blog_Button Blog_toggleButton"
           onClick={handleVisibility}
         >
           {buttonLabel}
@@ -33,12 +33,18 @@ const Blog = ({ index, blog, deleteBlog, addLike }) => {
         <p>
           <strong>Author:</strong>
         </p>
-        <p className="Blog_authorValue">{blog.author}</p>
+        <p className="Blog_value">{blog.author}</p>
         <p>
           <strong>URL:</strong>
         </p>
-        <p className="Blog_urlValue">
+        <p className="Blog_value">
           <a href={blog.url}>{blog.url}</a>
+        </p>
+        <p>
+          <strong>Add by User:</strong>
+        </p>
+        <p className="Blog_value">
+          {blog.user.name ? blog.user.name : user.name}
         </p>
         <p>
           <strong>Likes:</strong>

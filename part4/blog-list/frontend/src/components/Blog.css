@@ -3,6 +3,7 @@
   flex-direction: column;
   color: #ffffff;
   padding: 10px;
+  gap: 10px;
 }
 
 .Blog > p {
@@ -12,19 +13,18 @@
 .Blog_title {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  font-size: 24px;
 }
 
 .Blog_details {
   display: grid;
-  grid-template-columns: 1fr 10fr 1fr;
+  grid-template-columns: 2fr 6fr 1fr;
+  row-gap: 8px;
+  align-items: center;
 }
 
-.Blog_authorValue {
-  grid-column-start: 2;
-  grid-column-end: 4;
-}
-
-.Blog_urlValue {
+.Blog_value {
   grid-column-start: 2;
   grid-column-end: 4;
 }
@@ -71,7 +71,7 @@
   border: 3px solid var(--background);
 }
 
-.Blog_viewButton {
+.Blog_toggleButton {
+  font-size: 18px;
   height: 30px;
-  align-self: center;
 }
