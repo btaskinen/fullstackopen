@@ -32,9 +32,12 @@ const updateBlog = async (id, updatedBlog) => {
   return response.data;
 };
 
-const deleteBlog = (blog) => {
-  const request = axios.delete(`${baseUrl}/${blog.id}`);
-  return request.then(() => `"Blog ${blog.title}" was successfully deleted.`);
+const deleteBlog = async (blog) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+  await axios.delete(`${baseUrl}/${blog.id}`, config);
+  return `"Blog ${blog.title}" was successfully deleted.`;
 };
 
 export default {
