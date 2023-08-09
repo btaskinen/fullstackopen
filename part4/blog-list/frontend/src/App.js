@@ -139,6 +139,8 @@ const App = () => {
 
   console.log(storedBlogs);
 
+  const sortedBlogs = storedBlogs.sort((a, b) => (a.likes < b.likes ? 1 : -1));
+
   const handleLogin = async (event) => {
     event.preventDefault();
 
@@ -212,7 +214,7 @@ const App = () => {
             />
           </Togglable>
           <div className="App_blogs">
-            {storedBlogs.map((blog, index) => {
+            {sortedBlogs.map((blog, index) => {
               return (
                 <Blog
                   key={blog.id}
