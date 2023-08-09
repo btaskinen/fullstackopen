@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
+import PropType from 'prop-types';
 import './LoginForm.css';
 
 const LoginForm = ({
@@ -33,5 +33,13 @@ const LoginForm = ({
     </button>
   </form>
 );
+
+LoginForm.propTypes = {
+  username: PropType.string.isRequired,
+  setUsername: PropType.func.isRequired,
+  password: PropType.string.isRequired,
+  setPassword: PropType.func.isRequired,
+  handleLogin: PropType.func.isRequired,
+};
 
 export default LoginForm;

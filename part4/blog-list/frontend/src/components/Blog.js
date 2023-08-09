@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import { React, useState } from 'react';
+import PropTypes from 'prop-types';
 import './Blog.css';
 
 const Blog = ({ index, blog, deleteBlog, addLike }) => {
@@ -63,6 +63,13 @@ const Blog = ({ index, blog, deleteBlog, addLike }) => {
       </div>
     </div>
   );
+};
+
+Blog.propTypes = {
+  index: PropTypes.number.isRequired,
+  blog: PropTypes.object.isRequired,
+  deleteBlog: PropTypes.func.isRequired,
+  addLike: PropTypes.func.isRequired,
 };
 
 export default Blog;

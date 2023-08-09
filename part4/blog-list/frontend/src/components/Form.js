@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import { React, useState } from 'react';
+import PropType from 'prop-types';
 import './Form.css';
 
 const Form = ({
@@ -68,6 +68,13 @@ const Form = ({
       </div>
     </form>
   );
+};
+
+Form.propTypes = {
+  addListEntry: PropType.func.isRequired,
+  storedBlogs: PropType.array.isRequired,
+  setNotification: PropType.func.isRequired,
+  setNotificationColor: PropType.func.isRequired,
 };
 
 export default Form;
