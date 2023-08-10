@@ -31,24 +31,24 @@ const Blog = ({ index, blog, deleteBlog, addLike }) => {
         <p>
           <strong>Author:</strong>
         </p>
-        <p className="Blog_value">{blog.author}</p>
+        <p className="Blog_value Blog_author">{blog.author}</p>
         <p>
           <strong>URL:</strong>
         </p>
-        <p className="Blog_value">
+        <p className="Blog_value Blog_url">
           <a href={blog.url}>{blog.url}</a>
         </p>
         <p>
           <strong>Add by User:</strong>
         </p>
-        <p className="Blog_value">{blog.user.name}</p>
+        <p className="Blog_value Blog_user">{blog.user.name}</p>
         <p>
           <strong>Likes:</strong>
         </p>
-        <p>{blog.likes}</p>
+        <p className="Blog_likes">{blog.likes}</p>
         <button
           type="button"
-          className="Blog_Button"
+          className="Blog_Button Blog_likeButton"
           onClick={() => addLike(blog)}
         >
           Like
