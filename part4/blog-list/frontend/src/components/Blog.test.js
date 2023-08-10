@@ -4,111 +4,82 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Blog from './Blog';
 
-test('renders only blog title', () => {
-  const index = 1;
+describe('Testing <Blog /> functionalities', () => {
+  let container;
+  let addLike;
+  let deleteBlog;
 
-  const blog = {
-    title: 'This is a blog about testing',
-    author: 'Test Tester',
-    url: 'http://www.blogs.com/testing101',
-    likes: 3,
-    user: {
-      username: 'ttester',
-      name: 'Test Tester',
-    },
-  };
+  beforeEach(() => {
+    const index = 1;
 
-  const addLike = jest.fn();
+    const blog = {
+      title: 'This is a blog about testing',
+      author: 'Test Tester',
+      url: 'http://www.blogs.com/testing101',
+      likes: 3,
+      user: {
+        username: 'ttester',
+        name: 'Test Tester',
+      },
+    };
 
-  const deleteBlog = jest.fn();
+    addLike = jest.fn();
 
-  const { container } = render(
-    <Blog index={index} blog={blog} deleteBlog={deleteBlog} addLike={addLike} />
-  );
+    deleteBlog = jest.fn();
 
-  const titleDiv = container.querySelector('.Blog_title');
-  const detailsDiv = container.querySelector('.Blog_details');
+    container = render(
+      <Blog
+        index={index}
+        blog={blog}
+        deleteBlog={deleteBlog}
+        addLike={addLike}
+      />
+    ).container;
+  });
 
-  expect(titleDiv).toHaveTextContent('This is a blog about testing');
-  expect(titleDiv).not.toHaveStyle('display: none');
-  expect(detailsDiv).toHaveStyle('display: none');
-  expect(detailsDiv.content).not.toBe('Likes');
-});
+  test('renders only blog title', () => {
+    const titleDiv = container.querySelector('.Blog_title');
+    const detailsDiv = container.querySelector('.Blog_details');
 
-test('clicking "View"-button displays all the blog details', async () => {
-  const index = 1;
+    expect(titleDiv).toHaveTextContent('This is a blog about testing');
+    expect(titleDiv).not.toHaveStyle('display: none');
+    expect(detailsDiv).toHaveStyle('display: none');
+    expect(detailsDiv.content).not.toBe('Likes');
+  });
 
-  const blog = {
-    title: 'This is a blog about testing',
-    author: 'Test Tester',
-    url: 'http://www.blogs.com/testing101',
-    likes: 3,
-    user: {
-      username: 'ttester',
-      name: 'Test Tester',
-    },
-  };
+  test('clicking "View"-button displays all the blog details', async () => {
+    const user = userEvent.setup();
+    const viewButton = container.querySelector('.Blog_toggleButton');
+    expect(viewButton).toHaveTextContent('View');
 
-  const addLike = jest.fn();
+    await user.click(viewButton);
 
-  const deleteBlog = jest.fn();
+    const div = container.querySelector('.Blog_details');
+    const authorElement = container.querySelector('.Blog_author');
+    const urlElement = container.querySelector('.Blog_url');
+    const userElement = container.querySelector('.Blog_user');
+    const likesElement = container.querySelector('.Blog_likes');
 
-  const { container } = render(
-    <Blog index={index} blog={blog} deleteBlog={deleteBlog} addLike={addLike} />
-  );
+    expect(div).not.toHaveStyle('display: none');
+    expect(authorElement).toHaveTextContent('Test Tester');
+    expect(urlElement).toHaveTextContent('http://www.blogs.com/testing101');
+    expect(userElement).toHaveTextContent('Test Tester');
+    expect(likesElement).toHaveTextContent(3);
+    expect(viewButton).toHaveTextContent('Hide');
+  });
 
-  const user = userEvent.setup();
-  const viewButton = container.querySelector('.Blog_toggleButton');
-  expect(viewButton).toHaveTextContent('View');
+  test('clicking the like button twice calls event handler twice', async () => {
+    const user = userEvent.setup();
+    const viewButton = container.querySelector('.Blog_toggleButton');
+    expect(viewButton).toHaveTextContent('View');
 
-  await user.click(viewButton);
+    await user.click(viewButton);
 
-  const div = container.querySelector('.Blog_details');
-  const authorElement = container.querySelector('.Blog_author');
-  const urlElement = container.querySelector('.Blog_url');
-  const userElement = container.querySelector('.Blog_user');
-  const likesElement = container.querySelector('.Blog_likes');
+    const likeButton = container.querySelector('.Blog_likeButton');
+    expect(likeButton).toHaveTextContent('Like');
 
-  expect(div).not.toHaveStyle('display: none');
-  expect(authorElement).toHaveTextContent('Test Tester');
-  expect(urlElement).toHaveTextContent('http://www.blogs.com/testing101');
-  expect(userElement).toHaveTextContent('Test Tester');
-  expect(likesElement).toHaveTextContent(3);
-  expect(viewButton).toHaveTextContent('Hide');
-});
-
-test('clicking the like button twice calls event handler twice', async () => {
-  const index = 1;
-
-  const blog = {
-    title: 'This is a blog about testing',
-    author: 'Test Tester',
-    url: 'http://www.blogs.com/testing101',
-    likes: 3,
-    user: {
-      username: 'ttester',
-      name: 'Test Tester',
-    },
-  };
-
-  const addLike = jest.fn();
-
-  const deleteBlog = jest.fn();
-
-  const { container } = render(
-    <Blog index={index} blog={blog} deleteBlog={deleteBlog} addLike={addLike} />
-  );
-
-  const user = userEvent.setup();
-  const viewButton = container.querySelector('.Blog_toggleButton');
-  expect(viewButton).toHaveTextContent('View');
-
-  await user.click(viewButton);
-
-  const likeButton = container.querySelector('.Blog_likeButton');
-  expect(likeButton).toHaveTextContent('Like');
-
-  await user.click(likeButton);
-  await user.click(likeButton);
-  expect(addLike.mock.calls).toHaveLength(2);
+    await user.click(likeButton);
+    await user.click(likeButton);
+    expect(addLike.mock.calls).toHaveLength(2);
+  });
 });
