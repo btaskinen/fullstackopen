@@ -1,6 +1,6 @@
 # Full Stack open course
 
-This repo contains code created while working through the Full Stack open course offered by the University of Helsinki.
+This repo contains code created while working through the [Full Stack open course](https://fullstackopen.com/en/) offered by the University of Helsinki.
 
 It contains code created while following along through each part of the course as well as code created while doing the exercises for each part.
 
