@@ -22,3 +22,5 @@ The following React apps were created while working through the exercises:
 4. Part 4
 
 - [Blog List](https://github.com/btaskinen/fullstackopen/tree/main/part4/blog-list)
+
+I am currently working on Part 5 of the course.
