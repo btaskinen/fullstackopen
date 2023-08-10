@@ -52,14 +52,25 @@ const Form = ({
 
   return (
     <form className="Form" onSubmit={addBlog}>
-      <div className="Form_inputField">
-        Title: <input value={newTitle} onChange={handleTitleChange} />
+      <div className="Form_inputField ">
+        Title:{' '}
+        <input id="titleInput" value={newTitle} onChange={handleTitleChange} />
       </div>
       <div className="Form_inputField">
-        Author: <input value={newAuthor} onChange={handleAuthorChange} />
+        Author:{' '}
+        <input
+          id="authorInput"
+          value={newAuthor}
+          onChange={handleAuthorChange}
+        />
       </div>
-      <div className="Form_inputField">
-        Blog URL: <input value={newBlogURL} onChange={handleBlogURLChange} />
+      <div className="Form_inputField ">
+        Blog URL:{' '}
+        <input
+          id="urlInput"
+          value={newBlogURL}
+          onChange={handleBlogURLChange}
+        />
       </div>
       <div className="Form_inputField">
         <button type="submit" className="Form_addButton">
