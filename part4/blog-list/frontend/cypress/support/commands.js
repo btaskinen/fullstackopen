@@ -37,3 +37,16 @@ Cypress.Commands.add('createBlog', ({ title, author, url }) => {
   });
   cy.visit('');
 });
+
+Cypress.Commands.add('login', ({ username, password }) => {
+  cy.request('POST', `${Cypress.env('BACKEND')}/login`, {
+    username,
+    password,
+  }).then((response) => {
+    localStorage.setItem(
+      'loggedBlogListAppUser',
+      JSON.stringify(response.body)
+    );
+  });
+  cy.visit('');
+});

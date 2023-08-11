@@ -41,16 +41,7 @@ describe('Blog-list app', () => {
 
   describe('when logged in', () => {
     beforeEach(() => {
-      cy.request('POST', `${Cypress.env('BACKEND')}/login`, {
-        username: 'ttester',
-        password: 'password',
-      }).then((response) => {
-        localStorage.setItem(
-          'loggedBlogListAppUser',
-          JSON.stringify(response.body)
-        );
-      });
-      cy.visit('');
+      cy.login({ username: 'ttester', password: 'password' });
     });
 
     it('a blog can be created', () => {
@@ -97,7 +88,7 @@ describe('Blog-list app', () => {
         cy.get('@blog2Container').find('.Blog_likes').should('have.text', '1');
       });
 
-      it.only('Blog creator can delete blog', () => {
+      it('Blog creator can delete blog', () => {
         cy.contains('Blog 2').as('blog2text');
         cy.get('@blog2text').parent().parent().parent().as('blog2Container');
         cy.get('@blog2Container').find('.Blog_toggleButton').as('viewButton');
@@ -110,6 +101,29 @@ describe('Blog-list app', () => {
         cy.get('[data-cy="notification"]').should(
           'have.text',
           'Blog "Blog 2" was successfully deleted.'
+        );
+      });
+
+      it('delete-button not visible for user who did not create blog', () => {
+        const user = {
+          name: 'Mary Smith',
+          username: 'msmith',
+          password: 'wordsofpass',
+        };
+        cy.request('POST', `${Cypress.env('BACKEND')}/users`, user);
+        cy.get('.App_logoutButton').click();
+        cy.login({ username: 'msmith', password: 'wordsofpass' });
+        cy.get('.App_loggedInUser').should(
+          'contain',
+          'Mary Smith is logged in.'
+        );
+        cy.contains('Blog 2').as('blog2text');
+        cy.get('@blog2text').parent().parent().parent().as('blog2Container');
+        cy.get('@blog2Container').find('.Blog_toggleButton').as('viewButton');
+        cy.get('@viewButton').click();
+        cy.get('@blog2Container').should(
+          'not.contain.html',
+          '[data-cy="Blog_deleteButton"]'
         );
       });
     });
