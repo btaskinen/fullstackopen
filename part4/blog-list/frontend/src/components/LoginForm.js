@@ -13,6 +13,7 @@ const LoginForm = ({
     <div className="LoginForm_inputField">
       Username
       <input
+        data-cy="usernameInput"
         type="text"
         value={username}
         name="Username"
@@ -22,6 +23,7 @@ const LoginForm = ({
     <div className="LoginForm_inputField">
       Password
       <input
+        data-cy="passwordInput"
         type="password"
         value={password}
         name="Password"

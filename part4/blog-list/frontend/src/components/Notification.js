@@ -7,7 +7,11 @@ const Notification = ({ message, color }) => {
     return null;
   }
 
-  return <div className={`Notification ${color}`}>{message}</div>;
+  return (
+    <div data-cy="notification" className={`Notification ${color}`}>
+      {message}
+    </div>
+  );
 };
 
 Notification.propTypes = {
