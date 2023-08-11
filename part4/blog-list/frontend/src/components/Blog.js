@@ -54,6 +54,7 @@ const Blog = ({ index, blog, deleteBlog, addLike }) => {
           Like
         </button>
         <button
+          data-cy="Blog_deleteButton"
           type="button"
           onClick={() => deleteBlog(blog)}
           className="Blog_Button"

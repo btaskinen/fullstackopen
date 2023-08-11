@@ -86,7 +86,8 @@ describe('Blog-list app', () => {
           url: 'http://www.blogs.com/blog3',
         });
       });
-      it.only('Blog 2 can be liked', () => {
+
+      it('Blog 2 can be liked', () => {
         cy.contains('Blog 2').as('blog2text');
         cy.get('@blog2text').parent().parent().parent().as('blog2Container');
         cy.get('@blog2Container').find('.Blog_toggleButton').as('viewButton');
@@ -94,6 +95,22 @@ describe('Blog-list app', () => {
         cy.get('@blog2Container').find('.Blog_likeButton').as('likeButton');
         cy.get('@likeButton').click();
         cy.get('@blog2Container').find('.Blog_likes').should('have.text', '1');
+      });
+
+      it.only('Blog creator can delete blog', () => {
+        cy.contains('Blog 2').as('blog2text');
+        cy.get('@blog2text').parent().parent().parent().as('blog2Container');
+        cy.get('@blog2Container').find('.Blog_toggleButton').as('viewButton');
+        cy.get('@viewButton').click();
+        cy.get('@blog2Container')
+          .find('[data-cy="Blog_deleteButton"]')
+          .as('deleteButton');
+        cy.get('@deleteButton').click();
+        cy.get('.Blog_title').should('have.length', 2);
+        cy.get('[data-cy="notification"]').should(
+          'have.text',
+          'Blog "Blog 2" was successfully deleted.'
+        );
       });
     });
   });
