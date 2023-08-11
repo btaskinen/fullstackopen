@@ -53,7 +53,7 @@ describe('Blog-list app', () => {
       cy.visit('');
     });
 
-    it.only('a blog can be created', () => {
+    it('a blog can be created', () => {
       cy.get('[data-cy="Togglable_addBlogButton"]').click();
       cy.get('#titleInput').type('How to successfully add a new blog');
       cy.get('#authorInput').type('Test Tester');
@@ -67,6 +67,34 @@ describe('Blog-list app', () => {
         'contain',
         'How to successfully add a new blog'
       );
+    });
+    describe('and several blogs exist', () => {
+      beforeEach(() => {
+        cy.createBlog({
+          title: 'Blog 1',
+          author: 'James Jameson',
+          url: 'http://www.blogs.com/blog1',
+        });
+        cy.createBlog({
+          title: 'Blog 2',
+          author: 'Jane Doe',
+          url: 'http://www.blogs.com/blog2',
+        });
+        cy.createBlog({
+          title: 'Blog 3',
+          author: 'Mike Mayers',
+          url: 'http://www.blogs.com/blog3',
+        });
+      });
+      it.only('Blog 2 can be liked', () => {
+        cy.contains('Blog 2').as('blog2text');
+        cy.get('@blog2text').parent().parent().parent().as('blog2Container');
+        cy.get('@blog2Container').find('.Blog_toggleButton').as('viewButton');
+        cy.get('@viewButton').click();
+        cy.get('@blog2Container').find('.Blog_likeButton').as('likeButton');
+        cy.get('@likeButton').click();
+        cy.get('@blog2Container').find('.Blog_likes').should('have.text', '1');
+      });
     });
   });
 });
