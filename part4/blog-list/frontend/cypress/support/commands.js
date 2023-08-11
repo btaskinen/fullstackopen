@@ -50,3 +50,22 @@ Cypress.Commands.add('login', ({ username, password }) => {
   });
   cy.visit('');
 });
+
+Cypress.Commands.add('pressLikeButton', (blogNumber) => {
+  cy.contains(`Blog ${blogNumber}`).as(`blog${blogNumber}text`);
+  cy.get(`@blog${blogNumber}text`)
+    .parent()
+    .parent()
+    .parent()
+    .as(`blog${blogNumber}Container`);
+  cy.get(`@blog${blogNumber}Container`)
+    .find('.Blog_toggleButton')
+    .as('viewButton');
+  cy.get('@viewButton').click();
+  cy.get(`@blog${blogNumber}Container`)
+    .find('.Blog_likeButton')
+    .as('likeButton');
+  cy.get('@likeButton').click();
+  cy.get('@viewButton').click();
+  cy.wait(1000);
+});

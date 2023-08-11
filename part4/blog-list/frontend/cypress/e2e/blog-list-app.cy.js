@@ -79,12 +79,7 @@ describe('Blog-list app', () => {
       });
 
       it('Blog 2 can be liked', () => {
-        cy.contains('Blog 2').as('blog2text');
-        cy.get('@blog2text').parent().parent().parent().as('blog2Container');
-        cy.get('@blog2Container').find('.Blog_toggleButton').as('viewButton');
-        cy.get('@viewButton').click();
-        cy.get('@blog2Container').find('.Blog_likeButton').as('likeButton');
-        cy.get('@likeButton').click();
+        cy.pressLikeButton(2);
         cy.get('@blog2Container').find('.Blog_likes').should('have.text', '1');
       });
 
@@ -125,6 +120,21 @@ describe('Blog-list app', () => {
           'not.contain.html',
           '[data-cy="Blog_deleteButton"]'
         );
+      });
+
+      it('Blogs are ordered according to likes', () => {
+        cy.pressLikeButton(2);
+        cy.pressLikeButton(2);
+        cy.pressLikeButton(2);
+        cy.pressLikeButton(1);
+        cy.pressLikeButton(1);
+        cy.pressLikeButton(3);
+        cy.pressLikeButton(3);
+        cy.pressLikeButton(3);
+        cy.pressLikeButton(3);
+        cy.get('.Blog').eq(0).should('contain', 'Blog 3');
+        cy.get('.Blog').eq(1).should('contain', 'Blog 2');
+        cy.get('.Blog').eq(2).should('contain', 'Blog 1');
       });
     });
   });

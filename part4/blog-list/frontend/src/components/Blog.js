@@ -14,7 +14,7 @@ const Blog = ({ index, blog, deleteBlog, addLike, loggedinUser }) => {
   const buttonLabel = blogDetailsVisible ? 'Hide' : 'View';
 
   return (
-    <div key={blog._id} className={`Blog ${backgroundColor}`}>
+    <div key={blog.id} className={`Blog ${backgroundColor}`}>
       <div className="Blog_title">
         <p>
           <strong>{blog.title}</strong>
