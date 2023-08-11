@@ -24,6 +24,7 @@ The following React apps were created while working through the exercises:
 - [Blog List](https://github.com/btaskinen/fullstackopen/tree/main/part4/blog-list)
 
 5. Part 5
+
    In Part 5, user login was added to the frontend of the [Blog List App](https://github.com/btaskinen/fullstackopen/tree/main/part4/blog-list) and the frontend was tested with react-testing-library (unit tests) and Cypress (end-to-end tests).
 
 I am currently working on Part 6 of the course.
