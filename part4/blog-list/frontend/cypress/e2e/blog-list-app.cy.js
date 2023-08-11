@@ -38,4 +38,35 @@ describe('Blog-list app', () => {
         .and('have.css', 'background-color', 'rgb(123, 8, 40)');
     });
   });
+
+  describe('when logged in', () => {
+    beforeEach(() => {
+      cy.request('POST', `${Cypress.env('BACKEND')}/login`, {
+        username: 'ttester',
+        password: 'password',
+      }).then((response) => {
+        localStorage.setItem(
+          'loggedBlogListAppUser',
+          JSON.stringify(response.body)
+        );
+      });
+      cy.visit('');
+    });
+
+    it.only('a blog can be created', () => {
+      cy.get('[data-cy="Togglable_addBlogButton"]').click();
+      cy.get('#titleInput').type('How to successfully add a new blog');
+      cy.get('#authorInput').type('Test Tester');
+      cy.get('#urlInput').type('http://www.blog.com/add-blog');
+      cy.get('.Form_addButton').click();
+      cy.get('[data-cy="notification"]').should(
+        'have.text',
+        'Blog "How to successfully add a new blog" was successfully added to the Blog List!'
+      );
+      cy.get('.App_blogs').should(
+        'contain',
+        'How to successfully add a new blog'
+      );
+    });
+  });
 });
