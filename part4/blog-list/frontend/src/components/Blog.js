@@ -2,7 +2,7 @@ import { React, useState } from 'react';
 import PropTypes from 'prop-types';
 import './Blog.css';
 
-const Blog = ({ index, blog, deleteBlog, addLike }) => {
+const Blog = ({ index, blog, deleteBlog, addLike, loggedinUser }) => {
   const [blogDetailsVisible, setVisibility] = useState(false);
   const backgroundColor = index % 2 === 0 ? 'dark' : 'light';
 
@@ -53,14 +53,16 @@ const Blog = ({ index, blog, deleteBlog, addLike }) => {
         >
           Like
         </button>
-        <button
-          data-cy="Blog_deleteButton"
-          type="button"
-          onClick={() => deleteBlog(blog)}
-          className="Blog_Button"
-        >
-          Delete
-        </button>
+        {blog.user.name === loggedinUser && (
+          <button
+            data-cy="Blog_deleteButton"
+            type="button"
+            onClick={() => deleteBlog(blog)}
+            className="Blog_Button"
+          >
+            Delete
+          </button>
+        )}
       </div>
     </div>
   );
@@ -71,6 +73,7 @@ Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   deleteBlog: PropTypes.func.isRequired,
   addLike: PropTypes.func.isRequired,
+  loggedinUser: PropTypes.string.isRequired,
 };
 
 export default Blog;

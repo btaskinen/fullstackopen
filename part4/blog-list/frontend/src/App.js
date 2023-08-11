@@ -222,6 +222,7 @@ const App = () => {
                   blog={blog}
                   deleteBlog={deleteBlog}
                   addLike={addLike}
+                  loggedinUser={user.name}
                 />
               );
             })}
