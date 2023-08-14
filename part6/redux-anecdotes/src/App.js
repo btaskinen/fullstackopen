@@ -8,6 +8,10 @@ const App = () => {
 
   const vote = (id) => {
     console.log('vote', id);
+    dispatch({
+      type: 'ADD_VOTE',
+      payload: { id },
+    });
   };
 
   return (
