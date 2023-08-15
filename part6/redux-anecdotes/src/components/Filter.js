@@ -4,9 +4,8 @@ import { useDispatch } from 'react-redux';
 const Filter = () => {
   const dispatch = useDispatch();
   const handleChange = (event) => {
-    console.log(event.target.value);
     dispatch({
-      type: 'FILTER',
+      type: 'filter/filterAnecdotes',
       payload: event.target.value,
     });
   };
