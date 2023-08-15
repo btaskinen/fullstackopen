@@ -13,14 +13,3 @@ const filterSlice = createSlice({
 
 export const { filterAnecdotes } = filterSlice.actions;
 export default filterSlice.reducer;
-
-// const filterReducer = (state = '', action) => {
-//   switch (action.type) {
-//     case 'FILTER':
-//       return action.payload;
-//     default:
-//       return state;
-//   }
-// };
-
-// export default filterReducer;

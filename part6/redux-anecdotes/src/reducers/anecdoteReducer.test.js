@@ -17,10 +17,8 @@ describe('anecdoteReducer', () => {
     ];
 
     const action = {
-      type: 'ADD_VOTE',
-      payload: {
-        id: 2,
-      },
+      type: 'anecdotes/addVote',
+      payload: 2,
     };
 
     deepFreeze(state);
@@ -41,16 +39,14 @@ describe('anecdoteReducer', () => {
   test('returns new state with action ADD_ANECDOTE', () => {
     const state = [];
     const action = {
-      type: 'ADD_ANECDOTE',
-      payload: {
-        content: 'the app state is in redux store',
-      },
+      type: 'anecdotes/createAnecdote',
+      payload: 'the app state is in redux store',
     };
 
     deepFreeze(state);
     const newState = anecdoteReducer(state, action);
 
     expect(newState).toHaveLength(1);
-    expect(newState).toContainEqual(action.payload);
+    expect(newState.map((s) => s.content)).toContainEqual(action.payload);
   });
 });

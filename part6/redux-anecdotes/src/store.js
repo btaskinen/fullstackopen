@@ -9,6 +9,4 @@ const store = configureStore({
   },
 });
 
-store.subscribe;
-
 export default store;
