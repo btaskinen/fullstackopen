@@ -19,6 +19,18 @@ const AnecdoteList = () => {
     }
   });
 
+  const voteButtonHandler = (anecdote) => {
+    dispatch({ type: 'anecdotes/addVote', payload: anecdote.id });
+    dispatch({
+      type: 'notification/addNotification',
+      payload: `You voted '${anecdote.content}'.`,
+    });
+    setTimeout(
+      () => dispatch({ type: 'notification/removeNotification' }),
+      5000
+    );
+  };
+
   return (
     <>
       {anecdotes.map((anecdote) => (
@@ -26,13 +38,7 @@ const AnecdoteList = () => {
           <div>{anecdote.content}</div>
           <div>
             has {anecdote.votes}
-            <button
-              onClick={() =>
-                dispatch({ type: 'anecdotes/addVote', payload: anecdote.id })
-              }
-            >
-              vote
-            </button>
+            <button onClick={() => voteButtonHandler(anecdote)}>vote</button>
           </div>
         </div>
       ))}

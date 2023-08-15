@@ -9,6 +9,14 @@ const AnecdoteForm = () => {
     const content = event.target.anecdote.value;
     event.target.anecdote.value = '';
     dispatch({ type: 'anecdotes/createAnecdote', payload: content });
+    dispatch({
+      type: 'notification/addNotification',
+      payload: `You added the anecdote '${content}'.`,
+    });
+    setTimeout(
+      () => dispatch({ type: 'notification/removeNotification' }),
+      5000
+    );
   };
   return (
     <>
