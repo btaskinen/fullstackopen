@@ -1,10 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { addVote } from '../reducers/anecdoteReducer';
 
 const AnecdoteList = () => {
   const dispatch = useDispatch();
   const anecdotes = useSelector(({ anecdotes, filter }) => {
-    console.log('inside AnecdoteList');
     const copyOfAnecdotes = [...anecdotes];
     const sortedAnecdotes = copyOfAnecdotes.sort((a, b) =>
       a.votes < b.votes ? 1 : -1
@@ -19,8 +19,10 @@ const AnecdoteList = () => {
     }
   });
 
+  console.log(anecdotes);
+
   const voteButtonHandler = (anecdote) => {
-    dispatch({ type: 'anecdotes/addVote', payload: anecdote.id });
+    dispatch(addVote(anecdote));
     dispatch({
       type: 'notification/addNotification',
       payload: `You voted '${anecdote.content}'.`,
