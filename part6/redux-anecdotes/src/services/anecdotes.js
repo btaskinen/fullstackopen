@@ -8,6 +8,7 @@ const getAll = async () => {
 };
 
 const newAnecdote = async (content) => {
+  console.log('content in newAnecdotes', content);
   const newAnecdote = {
     content: content,
     votes: 0,
