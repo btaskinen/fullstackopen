@@ -19,6 +19,31 @@
       "content": "Sundays are great!",
       "important": false,
       "id": 4
+    },
+    {
+      "content": "a note",
+      "important": true,
+      "id": 5
+    },
+    {
+      "content": "another note",
+      "important": false,
+      "id": 6
+    },
+    {
+      "content": "a new note",
+      "important": true,
+      "id": 7
+    },
+    {
+      "content": "Good morning!",
+      "important": false,
+      "id": 8
+    },
+    {
+      "content": "Soon it is weekend",
+      "important": true,
+      "id": 9
     }
   ]
 }
