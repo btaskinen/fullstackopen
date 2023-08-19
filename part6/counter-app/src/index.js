@@ -1,47 +1,51 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import App from './App';
+import { CounterContextProvider } from './CounterContext';
 
-import { createStore } from 'redux';
+// import { createStore } from 'redux';
 
-const counterReducer = (state, action) => {
-  switch (action.type) {
-    case 'INCREMENT':
-      return state + 1;
-    case 'DECREMENT':
-      return state - 1;
-    case 'ZERO':
-      return 0;
+// const counterReducer = (state, action) => {
+//   switch (action.type) {
+//     case 'INCREMENT':
+//       return state + 1;
+//     case 'DECREMENT':
+//       return state - 1;
+//     case 'ZERO':
+//       return 0;
 
-    default:
-      return state;
-  }
-};
+//     default:
+//       return state;
+//   }
+// };
 
-const store = createStore(counterReducer);
+// const store = createStore(counterReducer);
 
-const App = () => {
-  return (
-    <div>
-      <div>{store.getState()}</div>
-      <button onClick={() => store.dispatch({ type: 'INCREMENT' })}>
-        plus
-      </button>
-      <button onClick={() => store.dispatch({ type: 'DECREMENT' })}>
-        minus
-      </button>
-      <button onClick={() => store.dispatch({ type: 'ZERO' })}>zero</button>
-    </div>
-  );
-};
+// const App = () => {
+//   return (
+//     <div>
+//       <div>{store.getState()}</div>
+//       <button onClick={() => store.dispatch({ type: 'INCREMENT' })}>
+//         plus
+//       </button>
+//       <button onClick={() => store.dispatch({ type: 'DECREMENT' })}>
+//         minus
+//       </button>
+//       <button onClick={() => store.dispatch({ type: 'ZERO' })}>zero</button>
+//     </div>
+//   );
+// };
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const renderApp = () => {
   root.render(
     <React.StrictMode>
-      <App />
+      <CounterContextProvider>
+        <App />
+      </CounterContextProvider>
     </React.StrictMode>
   );
 };
 
 renderApp();
-store.subscribe(renderApp);
+// store.subscribe(renderApp);
