@@ -27,4 +27,8 @@ The following React apps were created while working through the exercises:
 
    In Part 5, user login was added to the frontend of the [Blog List App](https://github.com/btaskinen/fullstackopen/tree/main/part4/blog-list) and the frontend was tested with react-testing-library (unit tests) and Cypress (end-to-end tests).
 
-I am currently working on Part 6 of the course.
+6. Part 6
+
+   In Part 6, different state management approaches were introduced: Redux, React Query, useReducer and context.
+
+I am currently working on Part 7 of the course.
