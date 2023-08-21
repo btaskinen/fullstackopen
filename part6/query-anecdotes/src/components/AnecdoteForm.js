@@ -12,6 +12,10 @@ const AnecdoteForm = () => {
       const anecdotes = queryClient.getQueryData('anecdotes');
       queryClient.setQueryData('anecdotes', anecdotes.concat(newAnecdote));
     },
+    onError: () => {
+      dispatch({ type: 'ERROR' });
+      setTimeout(() => dispatch({ type: 'CLEAR' }), 5000);
+    },
   });
 
   const onCreate = (event) => {
