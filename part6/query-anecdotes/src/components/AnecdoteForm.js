@@ -1,8 +1,10 @@
 import React from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { createAnecdote } from '../request';
+import { useNotificationDispatch } from '../NotificationContext';
 
 const AnecdoteForm = () => {
+  const dispatch = useNotificationDispatch();
   const queryClient = useQueryClient();
 
   const newAnecdoteMutation = useMutation(createAnecdote, {
@@ -18,6 +20,8 @@ const AnecdoteForm = () => {
     event.target.anecdote.value = '';
     console.log('new anecdote', content);
     newAnecdoteMutation.mutate({ content, votes: 0 });
+    dispatch({ type: 'NEW', payload: content });
+    setTimeout(() => dispatch({ type: 'CLEAR' }), 5000);
   };
 
   return (
