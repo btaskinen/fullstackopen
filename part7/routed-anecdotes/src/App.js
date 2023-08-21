@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const Menu = () => {
   const padding = {
@@ -6,15 +8,15 @@ const Menu = () => {
   };
   return (
     <div>
-      <a href="#" style={padding}>
+      <Link style={padding} to="/">
         anecdotes
-      </a>
-      <a href="#" style={padding}>
+      </Link>
+      <Link style={padding} to="/create">
         create new
-      </a>
-      <a href="#" style={padding}>
+      </Link>
+      <Link to="/about" style={padding}>
         about
-      </a>
+      </Link>
     </div>
   );
 };
@@ -42,7 +44,7 @@ const About = () => (
       more general than the brief tale itself, such as to characterize a person
       by delineating a specific quirk or trait, to communicate an abstract idea
       about a person, place, or thing through the concrete details of a short
-      narrative. An anecdote is "a story with a point."
+      narrative. An anecdote is &quot;a story with a point.&quot;
     </em>
 
     <p>
@@ -63,14 +65,14 @@ const Footer = () => (
   </div>
 );
 
-const CreateNew = (props) => {
+const CreateNew = ({ addNew }) => {
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
   const [info, setInfo] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.addNew({
+    addNew({
       content,
       author,
       info,
@@ -130,36 +132,48 @@ const App = () => {
     },
   ]);
 
-  const [notification, setNotification] = useState('');
+  // const [notification, setNotification] = useState('');
 
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000);
     setAnecdotes(anecdotes.concat(anecdote));
   };
 
-  const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
+  // const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
 
-  const vote = (id) => {
-    const anecdote = anecdoteById(id);
+  // const vote = (id) => {
+  //   const anecdote = anecdoteById(id);
 
-    const voted = {
-      ...anecdote,
-      votes: anecdote.votes + 1,
-    };
+  //   const voted = {
+  //     ...anecdote,
+  //     votes: anecdote.votes + 1,
+  //   };
 
-    setAnecdotes(anecdotes.map((a) => (a.id === id ? voted : a)));
-  };
+  //   setAnecdotes(anecdotes.map((a) => (a.id === id ? voted : a)));
+  // };
 
   return (
-    <div>
+    <Router>
       <h1>Software anecdotes</h1>
       <Menu />
-      <AnecdoteList anecdotes={anecdotes} />
-      <About />
-      <CreateNew addNew={addNew} />
+
+      <Routes>
+        <Route path="/create" element={<CreateNew addNew={addNew} />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
+      </Routes>
+
       <Footer />
-    </div>
+    </Router>
   );
+};
+
+AnecdoteList.propTypes = {
+  anecdotes: PropTypes.array.isRequired,
+};
+
+CreateNew.propTypes = {
+  addNew: PropTypes.func.isRequired,
 };
 
 export default App;
