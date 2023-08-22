@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Routes, Route, Link, useMatch } from 'react-router-dom';
+import { Routes, Route, Link, useMatch, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const Menu = () => {
@@ -91,6 +91,9 @@ const CreateNew = ({ addNew }) => {
       info,
       votes: 0,
     });
+    setContent('');
+    setAuthor('');
+    setInfo('');
   };
 
   return (
@@ -127,7 +130,12 @@ const CreateNew = ({ addNew }) => {
   );
 };
 
+const Notification = ({ notification }) => {
+  return <div>{notification}</div>;
+};
+
 const App = () => {
+  const navigate = useNavigate();
   const [anecdotes, setAnecdotes] = useState([
     {
       content: 'If it hurts, do it more often',
@@ -150,11 +158,14 @@ const App = () => {
     ? anecdotes.find((a) => a.id === Number(match.params.id))
     : null;
 
-  // const [notification, setNotification] = useState('');
+  const [notification, setNotification] = useState('');
 
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000);
     setAnecdotes(anecdotes.concat(anecdote));
+    setNotification(`a new anecdote '${anecdote.content}' was created!`);
+    setTimeout(() => setNotification(null), 5000);
+    navigate('/');
   };
 
   // const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
@@ -174,6 +185,7 @@ const App = () => {
     <>
       <h1>Software anecdotes</h1>
       <Menu />
+      <Notification notification={notification} />
       <Routes>
         <Route path="/create" element={<CreateNew addNew={addNew} />} />
         <Route path="/about" element={<About />} />
@@ -195,6 +207,10 @@ Anecdote.propTypes = {
 
 CreateNew.propTypes = {
   addNew: PropTypes.func.isRequired,
+};
+
+Notification.propTypes = {
+  notification: PropTypes.string,
 };
 
 export default App;
