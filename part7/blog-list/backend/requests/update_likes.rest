@@ -1,0 +1,9 @@
+PUT http://localhost:3003/api/blogs/64a4221a0e79e2e1f7d1cde6
+Content-Type: application/json
+
+{
+  "title": "Mastering TypeScript: 20 Best Practices for Improved Code Quality",
+  "author": "Vitalii Shevchuk",
+  "url": "https://medium.com/itnext/mastering-typescript-21-best-practices-for-improved-code-quality-2f7615e1fdc3",
+  "likes": 1
+}
