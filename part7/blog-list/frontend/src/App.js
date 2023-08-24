@@ -8,11 +8,12 @@ import blogServices from './services/blog-list';
 import loginServices from './services/login';
 import './App.css';
 import Togglable from './components/Togglable';
+import { useDispatch } from 'react-redux';
+import { setNotification } from './reducers/notificationReducer';
 
 const App = () => {
+  const dispatch = useDispatch();
   const [storedBlogs, setStoredBlogs] = useState([]);
-  const [notification, setNotification] = useState(null);
-  const [notificationColor, setNotificationColor] = useState('success');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
@@ -45,22 +46,20 @@ const App = () => {
         console.log(
           `Blog ${blogObject.title} was successfully added to the Blog List!`
         );
-        setNotification(
-          `Blog "${blogObject.title}" was successfully added to the Blog List!`
+        dispatch(
+          setNotification(
+            `Blog "${blogObject.title}" was successfully added to the Blog List!`,
+            'success',
+            5000
+          )
         );
-        setTimeout(() => {
-          setNotification(null);
-        }, 5000);
         addBlogRef.current.toggleVisibility();
       })
       .catch((error) => {
         console.log(error.response.data.error);
-        setNotification(`${error.response.data.error}`);
-        setNotificationColor('error');
-        setTimeout(() => {
-          setNotification(null);
-          setNotificationColor('success');
-        }, 5000);
+        dispatch(
+          setNotification(`${error.response.data.error}`, 'error', 5000)
+        );
       })
       .then(() => {
         blogServices
@@ -82,18 +81,12 @@ const App = () => {
             storedBlogs.filter((storedBlog) => storedBlog.id !== blog.id)
           );
           console.log(`${response}`);
-          setNotification(`${response}`);
-          setTimeout(() => {
-            setNotification(null);
-          }, 5000);
+          dispatch(setNotification(`${response}`, 'success', 5000));
         })
         .catch((error) => {
-          setNotification(`${error.response.data.error}`);
-          setNotificationColor('error');
-          setTimeout(() => {
-            setNotification(null);
-            setNotificationColor('success');
-          }, 5000);
+          dispatch(
+            setNotification(`${error.response.data.error}`, 'error', 5000)
+          );
         });
     }
   };
@@ -120,12 +113,9 @@ const App = () => {
         console.log('Like was successfully registered');
       })
       .catch((error) => {
-        setNotification(`${error.response.data.error}`);
-        setNotificationColor('error');
-        setTimeout(() => {
-          setNotification(null);
-          setNotificationColor('success');
-        }, 5000);
+        dispatch(
+          setNotification(`${error.response.data.error}`, 'error', 5000)
+        );
       })
       .then(() => {
         blogServices
@@ -158,12 +148,7 @@ const App = () => {
       setUsername('');
       setPassword('');
     } catch (exception) {
-      setNotificationColor('error');
-      setNotification('Wrong username or password');
-      setTimeout(() => {
-        setNotificationColor('success');
-        setNotification(null);
-      }, 5000);
+      dispatch(setNotification('Wrong username or password', 'error', 5000));
     }
   };
 
@@ -206,12 +191,7 @@ const App = () => {
             favorite blog.
           </p>
           <Togglable buttonLabel="Add blog" ref={addBlogRef}>
-            <Form
-              addListEntry={addListEntry}
-              storedBlogs={storedBlogs}
-              setNotification={setNotification}
-              setNotificationColor={setNotificationColor}
-            />
+            <Form addListEntry={addListEntry} storedBlogs={storedBlogs} />
           </Togglable>
           <div className="App_blogs">
             {sortedBlogs.map((blog, index) => {
@@ -229,7 +209,7 @@ const App = () => {
           </div>
         </>
       )}
-      <Notification message={notification} color={notificationColor} />
+      <Notification />
     </div>
   );
 };

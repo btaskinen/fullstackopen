@@ -1,13 +1,11 @@
 import { React, useState } from 'react';
 import PropType from 'prop-types';
 import './Form.css';
+import { useDispatch } from 'react-redux';
+import { setNotification } from '../reducers/notificationReducer';
 
-const Form = ({
-  addListEntry,
-  storedBlogs,
-  setNotification,
-  setNotificationColor,
-}) => {
+const Form = ({ addListEntry, storedBlogs }) => {
+  const dispatch = useDispatch();
   const [newTitle, setNewTitle] = useState('');
   const [newAuthor, setNewAuthor] = useState('');
   const [newBlogURL, setNewBlogURL] = useState('');
@@ -32,12 +30,13 @@ const Form = ({
 
     if (urlAlreadyInBlogList) {
       console.log('Blog is already in the List.');
-      setNotification(`Blog "${newTitle}" is already in the List`);
-      setNotificationColor('error');
-      setTimeout(() => {
-        setNotification(null);
-        setNotificationColor('success');
-      }, 5000);
+      dispatch(
+        setNotification(
+          `Blog "${newTitle}" is already in the List`,
+          'error',
+          5000
+        )
+      );
     } else {
       addListEntry({
         title: newTitle,
@@ -84,8 +83,6 @@ const Form = ({
 Form.propTypes = {
   addListEntry: PropType.func.isRequired,
   storedBlogs: PropType.array.isRequired,
-  setNotification: PropType.func.isRequired,
-  setNotificationColor: PropType.func.isRequired,
 };
 
 export default Form;
