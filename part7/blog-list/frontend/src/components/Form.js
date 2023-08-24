@@ -1,11 +1,12 @@
 import { React, useState } from 'react';
 import PropType from 'prop-types';
 import './Form.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setNotification } from '../reducers/notificationReducer';
 
-const Form = ({ addListEntry, storedBlogs }) => {
+const Form = ({ addListEntry }) => {
   const dispatch = useDispatch();
+  const storedBlogs = useSelector((state) => state.blogs);
   const [newTitle, setNewTitle] = useState('');
   const [newAuthor, setNewAuthor] = useState('');
   const [newBlogURL, setNewBlogURL] = useState('');
@@ -82,7 +83,6 @@ const Form = ({ addListEntry, storedBlogs }) => {
 
 Form.propTypes = {
   addListEntry: PropType.func.isRequired,
-  storedBlogs: PropType.array.isRequired,
 };
 
 export default Form;

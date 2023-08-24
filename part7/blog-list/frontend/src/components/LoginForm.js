@@ -7,7 +7,6 @@ import { setUsername, setPassword } from '../reducers/loginReducer';
 const LoginForm = ({ handleLogin }) => {
   const dispatch = useDispatch();
   const { username, password } = useSelector((state) => state.login);
-  console.log('LOGINFORM', username, password);
   return (
     <form className="LoginForm" onSubmit={handleLogin}>
       <div className="LoginForm_inputField">

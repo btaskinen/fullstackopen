@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Blog from './components/Blog';
 import Form from './components/Form';
 import LoginForm from './components/LoginForm';
@@ -16,19 +16,18 @@ import {
   setUsername,
   setPassword,
 } from './reducers/loginReducer';
+import { initializeBlogs, createBlog } from './reducers/blogReducer';
 
 const App = () => {
   const dispatch = useDispatch();
   const { username, password, user } = useSelector((state) => state.login);
-  const [storedBlogs, setStoredBlogs] = useState([]);
+  const storedBlogs = useSelector((state) => state.blogs);
 
   const addBlogRef = useRef();
 
   useEffect(() => {
     if (user) {
-      blogServices.getAllBlogs().then((storedBlogs) => {
-        setStoredBlogs(storedBlogs);
-      });
+      dispatch(initializeBlogs());
     }
   }, [user]);
 
@@ -42,98 +41,15 @@ const App = () => {
   }, []);
 
   const addListEntry = (blogObject) => {
-    blogServices
-      .createBlog(blogObject)
-      .then((returnedBlog) => {
-        console.log('RETURNED BLOG', returnedBlog);
-        setStoredBlogs(storedBlogs.concat(returnedBlog));
-        console.log(
-          `Blog ${blogObject.title} was successfully added to the Blog List!`
-        );
-        dispatch(
-          setNotification(
-            `Blog "${blogObject.title}" was successfully added to the Blog List!`,
-            'success',
-            5000
-          )
-        );
-        addBlogRef.current.toggleVisibility();
-      })
-      .catch((error) => {
-        console.log(error.response.data.error);
-        dispatch(
-          setNotification(`${error.response.data.error}`, 'error', 5000)
-        );
-      })
-      .then(() => {
-        blogServices
-          .getAllBlogs()
-          .then((storedBlogs) => {
-            setStoredBlogs(storedBlogs);
-          })
-          .then(console.log('FETCHED BLOGS'));
-      });
+    dispatch(createBlog(blogObject));
   };
 
-  const deleteBlog = (blog) => {
-    console.log(blog);
-    if (window.confirm(`Delete ${blog.title}?`)) {
-      blogServices
-        .deleteBlog(blog)
-        .then((response) => {
-          setStoredBlogs(
-            storedBlogs.filter((storedBlog) => storedBlog.id !== blog.id)
-          );
-          console.log(`${response}`);
-          dispatch(setNotification(`${response}`, 'success', 5000));
-        })
-        .catch((error) => {
-          dispatch(
-            setNotification(`${error.response.data.error}`, 'error', 5000)
-          );
-        });
-    }
-  };
+  console.log('STORED BLOGS', storedBlogs);
+  console.log('USER', user);
 
-  const addLike = (blog) => {
-    const newLikes = blog.likes + 1;
+  const arrayForSort = [...storedBlogs];
 
-    const updatedBlog = {
-      ...blog,
-      likes: newLikes,
-    };
-
-    console.log('UPDATED BLOG BEFORE SENDING', updatedBlog);
-
-    blogServices
-      .updateBlog(blog.id, updatedBlog)
-      .then((returnedBlog) => {
-        console.log(returnedBlog);
-        setStoredBlogs(
-          storedBlogs.map((blog) => {
-            return blog.id !== updatedBlog.id ? blog : returnedBlog;
-          })
-        );
-        console.log('Like was successfully registered');
-      })
-      .catch((error) => {
-        dispatch(
-          setNotification(`${error.response.data.error}`, 'error', 5000)
-        );
-      })
-      .then(() => {
-        blogServices
-          .getAllBlogs()
-          .then((storedBlogs) => {
-            setStoredBlogs(storedBlogs);
-          })
-          .then(console.log('FETCHED BLOGS in LIKES'));
-      });
-  };
-
-  console.log(storedBlogs);
-
-  const sortedBlogs = storedBlogs.sort((a, b) => (a.likes < b.likes ? 1 : -1));
+  const sortedBlogs = arrayForSort.sort((a, b) => (a.likes < b.likes ? 1 : -1));
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -191,19 +107,11 @@ const App = () => {
             favorite blog.
           </p>
           <Togglable buttonLabel="Add blog" ref={addBlogRef}>
-            <Form addListEntry={addListEntry} storedBlogs={storedBlogs} />
+            <Form addListEntry={addListEntry} />
           </Togglable>
           <div className="App_blogs">
             {sortedBlogs.map((blog, index) => {
-              return (
-                <Blog
-                  key={blog.id}
-                  index={index}
-                  blog={blog}
-                  deleteBlog={deleteBlog}
-                  addLike={addLike}
-                />
-              );
+              return <Blog key={blog.id} index={index} blog={blog} />;
             })}
           </div>
         </>

@@ -1,12 +1,25 @@
 import { React, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import './Blog.css';
+import { deleteBlog, addLike } from '../reducers/blogReducer';
 
-const Blog = ({ index, blog, deleteBlog, addLike }) => {
+const Blog = ({ index, blog }) => {
+  const dispatch = useDispatch();
   const loggedinUser = useSelector((state) => state.login.user.name);
   const [blogDetailsVisible, setVisibility] = useState(false);
   const backgroundColor = index % 2 === 0 ? 'dark' : 'light';
+
+  const handleLike = (blog) => {
+    dispatch(addLike(blog));
+  };
+
+  const handleDeleteBlog = (blog) => {
+    console.log(blog);
+    if (window.confirm(`Delete ${blog.title}?`)) {
+      dispatch(deleteBlog(blog));
+    }
+  };
 
   const handleVisibility = () => {
     setVisibility(!blogDetailsVisible);
@@ -51,7 +64,7 @@ const Blog = ({ index, blog, deleteBlog, addLike }) => {
         <button
           type="button"
           className="Blog_Button Blog_likeButton"
-          onClick={() => addLike(blog)}
+          onClick={() => handleLike(blog)}
         >
           Like
         </button>
@@ -59,7 +72,7 @@ const Blog = ({ index, blog, deleteBlog, addLike }) => {
           <button
             data-cy="Blog_deleteButton"
             type="button"
-            onClick={() => deleteBlog(blog)}
+            onClick={() => handleDeleteBlog(blog)}
             className="Blog_Button"
           >
             Delete
@@ -73,8 +86,6 @@ const Blog = ({ index, blog, deleteBlog, addLike }) => {
 Blog.propTypes = {
   index: PropTypes.number.isRequired,
   blog: PropTypes.object.isRequired,
-  deleteBlog: PropTypes.func.isRequired,
-  addLike: PropTypes.func.isRequired,
 };
 
 export default Blog;
