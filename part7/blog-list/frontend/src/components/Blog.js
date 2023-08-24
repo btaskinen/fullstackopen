@@ -10,10 +10,6 @@ const Blog = ({ index, blog }) => {
   const [blogDetailsVisible, setVisibility] = useState(false);
   const backgroundColor = index % 2 === 0 ? 'dark' : 'light';
 
-  const handleLike = (blog) => {
-    dispatch(addLike(blog));
-  };
-
   const handleDeleteBlog = (blog) => {
     console.log(blog);
     if (window.confirm(`Delete ${blog.title}?`)) {
@@ -64,7 +60,7 @@ const Blog = ({ index, blog }) => {
         <button
           type="button"
           className="Blog_Button Blog_likeButton"
-          onClick={() => handleLike(blog)}
+          onClick={() => dispatch(addLike(blog))}
         >
           Like
         </button>

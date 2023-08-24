@@ -16,7 +16,7 @@ import {
   setUsername,
   setPassword,
 } from './reducers/loginReducer';
-import { initializeBlogs, createBlog } from './reducers/blogReducer';
+import { initializeBlogs } from './reducers/blogReducer';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -39,10 +39,6 @@ const App = () => {
       blogServices.setToken(user.token);
     }
   }, []);
-
-  const addListEntry = (blogObject) => {
-    dispatch(createBlog(blogObject));
-  };
 
   console.log('STORED BLOGS', storedBlogs);
   console.log('USER', user);
@@ -107,7 +103,7 @@ const App = () => {
             favorite blog.
           </p>
           <Togglable buttonLabel="Add blog" ref={addBlogRef}>
-            <Form addListEntry={addListEntry} />
+            <Form addBlogRef={addBlogRef} />
           </Togglable>
           <div className="App_blogs">
             {sortedBlogs.map((blog, index) => {

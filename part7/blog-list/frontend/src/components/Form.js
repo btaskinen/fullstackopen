@@ -3,8 +3,9 @@ import PropType from 'prop-types';
 import './Form.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { setNotification } from '../reducers/notificationReducer';
+import { createBlog } from '../reducers/blogReducer';
 
-const Form = ({ addListEntry }) => {
+const Form = ({ addBlogRef }) => {
   const dispatch = useDispatch();
   const storedBlogs = useSelector((state) => state.blogs);
   const [newTitle, setNewTitle] = useState('');
@@ -39,11 +40,14 @@ const Form = ({ addListEntry }) => {
         )
       );
     } else {
-      addListEntry({
-        title: newTitle,
-        author: newAuthor,
-        url: newBlogURL,
-      });
+      dispatch(
+        createBlog({
+          title: newTitle,
+          author: newAuthor,
+          url: newBlogURL,
+        })
+      );
+      addBlogRef.current.toggleVisibility();
       setNewAuthor('');
       setNewTitle('');
       setNewBlogURL('');
@@ -82,7 +86,7 @@ const Form = ({ addListEntry }) => {
 };
 
 Form.propTypes = {
-  addListEntry: PropType.func.isRequired,
+  addBlogRef: PropType.func.isRequired,
 };
 
 export default Form;
