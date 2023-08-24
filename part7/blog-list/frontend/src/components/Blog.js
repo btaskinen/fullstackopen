@@ -1,8 +1,10 @@
 import { React, useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import './Blog.css';
 
-const Blog = ({ index, blog, deleteBlog, addLike, loggedinUser }) => {
+const Blog = ({ index, blog, deleteBlog, addLike }) => {
+  const loggedinUser = useSelector((state) => state.login.user.name);
   const [blogDetailsVisible, setVisibility] = useState(false);
   const backgroundColor = index % 2 === 0 ? 'dark' : 'light';
 
@@ -73,7 +75,6 @@ Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   deleteBlog: PropTypes.func.isRequired,
   addLike: PropTypes.func.isRequired,
-  loggedinUser: PropTypes.string.isRequired,
 };
 
 export default Blog;

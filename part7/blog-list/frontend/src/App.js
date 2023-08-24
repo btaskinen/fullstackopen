@@ -8,15 +8,19 @@ import blogServices from './services/blog-list';
 import loginServices from './services/login';
 import './App.css';
 import Togglable from './components/Togglable';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setNotification } from './reducers/notificationReducer';
+import {
+  setUser,
+  logoutUser,
+  setUsername,
+  setPassword,
+} from './reducers/loginReducer';
 
 const App = () => {
   const dispatch = useDispatch();
+  const { username, password, user } = useSelector((state) => state.login);
   const [storedBlogs, setStoredBlogs] = useState([]);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [user, setUser] = useState(null);
 
   const addBlogRef = useRef();
 
@@ -32,7 +36,7 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogListAppUser');
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      setUser(user);
+      dispatch(setUser(user));
       blogServices.setToken(user.token);
     }
   }, []);
@@ -134,6 +138,8 @@ const App = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
 
+    console.log('USERNAME AND PASSWORD', username, password);
+
     try {
       const user = await loginServices.login({
         username,
@@ -144,9 +150,9 @@ const App = () => {
         JSON.stringify(user)
       );
       blogServices.setToken(user.token);
-      setUser(user);
-      setUsername('');
-      setPassword('');
+      dispatch(setUser(user));
+      dispatch(setUsername(''));
+      dispatch(setPassword(''));
     } catch (exception) {
       dispatch(setNotification('Wrong username or password', 'error', 5000));
     }
@@ -154,7 +160,7 @@ const App = () => {
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogListAppUser');
-    setUser(null);
+    dispatch(logoutUser());
   };
 
   return (
@@ -176,13 +182,7 @@ const App = () => {
       {user === null ? (
         <>
           <p>Login with your credentials to see and create blog listings.</p>
-          <LoginForm
-            username={username}
-            setUsername={setUsername}
-            password={password}
-            setPassword={setPassword}
-            handleLogin={handleLogin}
-          />
+          <LoginForm handleLogin={handleLogin} />
         </>
       ) : (
         <>
@@ -202,7 +202,6 @@ const App = () => {
                   blog={blog}
                   deleteBlog={deleteBlog}
                   addLike={addLike}
-                  loggedinUser={user.name}
                 />
               );
             })}
