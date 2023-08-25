@@ -1,0 +1,32 @@
+.Users > h2 {
+  padding: 20px;
+  margin: 0;
+}
+
+table {
+  padding-left: 20px;
+}
+
+th {
+  text-align: left;
+  padding: 10px;
+  background-color: var(--dark);
+  color: #ffffff;
+}
+
+td {
+  padding: 10px;
+}
+
+.Users_blogNumberCell {
+  text-align: right;
+}
+
+.Users_tableRow.dark {
+  background-color: var(--darker);
+  color: #ffffff;
+}
+
+.Users_tableRow.light {
+  background-color: var(--light);
+}

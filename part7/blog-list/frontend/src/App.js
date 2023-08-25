@@ -1,6 +1,8 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
 import Home from './components/Home';
+import Users from './components/Users';
 import LoginForm from './components/LoginForm';
 import Notification from './components/Notification';
 import './App.css';
@@ -50,7 +52,10 @@ const App = () => {
           </button>
         </div>
       )}
-      {user === null ? <LoginForm /> : <Home />}
+      <Routes>
+        <Route path="/users" element={<Users />} />
+        <Route path="/" element={user === null ? <LoginForm /> : <Home />} />
+      </Routes>
       <Notification />
     </div>
   );
