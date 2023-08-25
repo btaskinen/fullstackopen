@@ -4,7 +4,6 @@ import Blog from './components/Blog';
 import Form from './components/Form';
 import LoginForm from './components/LoginForm';
 import Notification from './components/Notification';
-import blogServices from './services/blog-list';
 import './App.css';
 import Togglable from './components/Togglable';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,7 +28,6 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       dispatch(setUser(user));
-      blogServices.setToken(user.token);
     }
   }, []);
 

@@ -31,7 +31,10 @@ export const {
 } = loginSlice.actions;
 
 export const setUser = (user) => {
-  return (dispatch) => dispatch(addUserDetails(user));
+  return (dispatch) => {
+    dispatch(addUserDetails(user));
+    blogServices.setToken(user.token);
+  };
 };
 
 export const loginUser = (username, password) => {
