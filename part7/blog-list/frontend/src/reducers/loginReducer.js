@@ -1,29 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
+import loginServices from '../services/login';
+import blogServices from '../services/blog-list';
+import { setNotification } from './notificationReducer';
 
 const initialState = {
-  username: '',
-  password: '',
   user: null,
 };
 const loginSlice = createSlice({
   name: 'login',
   initialState,
   reducers: {
-    addUsername(state, action) {
-      const newState = {
-        ...state,
-        username: action.payload,
-      };
-      console.log(action.payload);
-      return newState;
-    },
-    addPassword(state, action) {
-      const newState = {
-        ...state,
-        password: action.payload,
-      };
-      return newState;
-    },
     removeUserCredentials() {
       return initialState;
     },
@@ -44,16 +30,27 @@ export const {
   addUserDetails,
 } = loginSlice.actions;
 
-export const setUsername = (username) => {
-  return (dispatch) => dispatch(addUsername(username));
-};
-
-export const setPassword = (password) => {
-  return (dispatch) => dispatch(addPassword(password));
-};
-
 export const setUser = (user) => {
   return (dispatch) => dispatch(addUserDetails(user));
+};
+
+export const loginUser = (username, password) => {
+  return async (dispatch) => {
+    try {
+      const user = await loginServices.login({
+        username,
+        password,
+      });
+      window.localStorage.setItem(
+        'loggedBlogListAppUser',
+        JSON.stringify(user)
+      );
+      blogServices.setToken(user.token);
+      dispatch(addUserDetails(user));
+    } catch (exception) {
+      dispatch(setNotification('Wrong username or password', 'error', 5000));
+    }
+  };
 };
 
 export const logoutUser = () => {

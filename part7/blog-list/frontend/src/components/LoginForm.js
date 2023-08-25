@@ -1,12 +1,22 @@
-import React from 'react';
-import PropType from 'prop-types';
+import React, { useState } from 'react';
 import './LoginForm.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { setUsername, setPassword } from '../reducers/loginReducer';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../reducers/loginReducer';
 
-const LoginForm = ({ handleLogin }) => {
+const LoginForm = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-  const { username, password } = useSelector((state) => state.login);
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+
+    console.log('USERNAME AND PASSWORD', username, password);
+    await dispatch(loginUser(username, password));
+    setUsername('');
+    setPassword('');
+  };
+
   return (
     <form className="LoginForm" onSubmit={handleLogin}>
       <div className="LoginForm_inputField">
@@ -16,7 +26,7 @@ const LoginForm = ({ handleLogin }) => {
           type="text"
           value={username}
           name="Username"
-          onChange={({ target }) => dispatch(setUsername(target.value))}
+          onChange={({ target }) => setUsername(target.value)}
         />
       </div>
       <div className="LoginForm_inputField">
@@ -26,7 +36,7 @@ const LoginForm = ({ handleLogin }) => {
           type="password"
           value={password}
           name="Password"
-          onChange={({ target }) => dispatch(setPassword(target.value))}
+          onChange={({ target }) => setPassword(target.value)}
         />
       </div>
       <button className="LoginForm_loginButton" type="submit">
@@ -34,10 +44,6 @@ const LoginForm = ({ handleLogin }) => {
       </button>
     </form>
   );
-};
-
-LoginForm.propTypes = {
-  handleLogin: PropType.func.isRequired,
 };
 
 export default LoginForm;

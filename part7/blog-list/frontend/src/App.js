@@ -5,22 +5,15 @@ import Form from './components/Form';
 import LoginForm from './components/LoginForm';
 import Notification from './components/Notification';
 import blogServices from './services/blog-list';
-import loginServices from './services/login';
 import './App.css';
 import Togglable from './components/Togglable';
 import { useDispatch, useSelector } from 'react-redux';
-import { setNotification } from './reducers/notificationReducer';
-import {
-  setUser,
-  logoutUser,
-  setUsername,
-  setPassword,
-} from './reducers/loginReducer';
+import { setUser, logoutUser } from './reducers/loginReducer';
 import { initializeBlogs } from './reducers/blogReducer';
 
 const App = () => {
   const dispatch = useDispatch();
-  const { username, password, user } = useSelector((state) => state.login);
+  const { user } = useSelector((state) => state.login);
   const storedBlogs = useSelector((state) => state.blogs);
 
   const addBlogRef = useRef();
@@ -47,29 +40,6 @@ const App = () => {
 
   const sortedBlogs = arrayForSort.sort((a, b) => (a.likes < b.likes ? 1 : -1));
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-
-    console.log('USERNAME AND PASSWORD', username, password);
-
-    try {
-      const user = await loginServices.login({
-        username,
-        password,
-      });
-      window.localStorage.setItem(
-        'loggedBlogListAppUser',
-        JSON.stringify(user)
-      );
-      blogServices.setToken(user.token);
-      dispatch(setUser(user));
-      dispatch(setUsername(''));
-      dispatch(setPassword(''));
-    } catch (exception) {
-      dispatch(setNotification('Wrong username or password', 'error', 5000));
-    }
-  };
-
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogListAppUser');
     dispatch(logoutUser());
@@ -94,7 +64,7 @@ const App = () => {
       {user === null ? (
         <>
           <p>Login with your credentials to see and create blog listings.</p>
-          <LoginForm handleLogin={handleLogin} />
+          <LoginForm />
         </>
       ) : (
         <>
