@@ -29,4 +29,14 @@ td {
 
 .Users_tableRow.light {
   background-color: var(--light);
+  color: #ffffff;
+}
+
+.Users_link {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.Users_link:hover {
+  font-weight: bold;
 }

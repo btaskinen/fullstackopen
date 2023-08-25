@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import './Users.css';
 import { setUsers } from '../reducers/usersReducer';
@@ -11,8 +12,6 @@ const Users = () => {
     dispatch(setUsers());
   }, []);
 
-  console.log(users);
-
   return (
     <div className="Users">
       <h2>Users</h2>
@@ -22,13 +21,15 @@ const Users = () => {
           <th>Blogs Created</th>
         </tr>
         {users.map((user, index) => {
-          console.log(user.name);
-          console.log(user.blogs.length);
           const backgroundColor = index % 2 === 0 ? 'light' : 'dark';
           return (
             <>
               <tr className={`Users_tableRow ${backgroundColor}`}>
-                <td>{user.name}</td>
+                <td>
+                  <Link className="Users_link" to={`/users/${user.id}`}>
+                    {user.name}
+                  </Link>
+                </td>
                 <td className="Users_blogNumberCell">{user.blogs.length}</td>
               </tr>
             </>

@@ -1,0 +1,22 @@
+.User {
+  padding: 20px;
+}
+
+.User > ul {
+  padding-inline-start: 0;
+}
+
+.User_blog {
+  list-style-type: none;
+  padding: 5px;
+  margin: 0;
+}
+
+.User_blog.dark {
+  background-color: var(--darker);
+  color: #ffffff;
+}
+
+.User_blog.light {
+  background-color: var(--light);
+}
