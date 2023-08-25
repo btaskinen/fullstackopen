@@ -1,7 +1,6 @@
 .Blog {
   display: flex;
   flex-direction: column;
-  color: #ffffff;
   padding: 10px;
   gap: 10px;
 }
@@ -38,37 +37,32 @@
 }
 
 .Blog > * a {
-  color: #ffffff;
+  color: #000;
 }
 
-.Blog.dark > * a:hover {
+.Blog > * a:hover {
   color: var(--darker);
-  background-color: #ffffff;
-}
-
-.Blog.light > * a:hover {
-  color: var(--light);
-  background-color: #ffffff;
 }
 
 .Blog_Button {
   width: fit-content;
   color: #ffffff;
-  background-color: var(--dark);
+  background-color: var(--darker);
   border-radius: 5px;
   border: 2px solid var(--border);
   font-family: inherit;
   font-size: inherit;
   margin: 6px;
+  cursor: pointer;
 }
 
 .Blog_Button:hover {
-  color: var(--dark);
-  background-color: var(--background);
+  color: var(--background);
+  background-color: var(--dark);
 }
 
 .Blog_Button:active {
-  border: 3px solid var(--background);
+  border: 3px solid var(--darker);
 }
 
 .Blog_toggleButton {

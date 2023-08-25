@@ -23,16 +23,14 @@ const Users = () => {
         {users.map((user, index) => {
           const backgroundColor = index % 2 === 0 ? 'light' : 'dark';
           return (
-            <>
-              <tr className={`Users_tableRow ${backgroundColor}`}>
-                <td>
-                  <Link className="Users_link" to={`/users/${user.id}`}>
-                    {user.name}
-                  </Link>
-                </td>
-                <td className="Users_blogNumberCell">{user.blogs.length}</td>
-              </tr>
-            </>
+            <tr key={user.id} className={`Users_tableRow ${backgroundColor}`}>
+              <td>
+                <Link className="Users_link" to={`/users/${user.id}`}>
+                  {user.name}
+                </Link>
+              </td>
+              <td className="Users_blogNumberCell">{user.blogs.length}</td>
+            </tr>
           );
         })}
       </table>

@@ -1,6 +1,5 @@
 .Togglable {
   display: flex;
-  padding-left: 20px;
   flex-direction: column;
 }
 

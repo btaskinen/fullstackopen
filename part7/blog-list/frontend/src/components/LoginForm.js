@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import './LoginForm.css';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../reducers/loginReducer';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -15,6 +17,7 @@ const LoginForm = () => {
     await dispatch(loginUser(username, password));
     setUsername('');
     setPassword('');
+    navigate('/blogs');
   };
 
   return (

@@ -1,9 +1,35 @@
+.Home {
+  padding: 20px;
+}
+
 .Home > p {
   font-size: 20px;
-  padding: 20px;
+  padding-bottom: 20px;
   margin: 0;
 }
 
-.Home_blogs {
-  padding: 20px;
+.Home > h2 {
+  padding-top: 10px;
+}
+
+.Home_blog {
+  padding: 10px;
+}
+
+.Home_blog.dark {
+  background-color: var(--darker);
+  color: #ffffff;
+}
+
+.Home_blog.light {
+  background-color: var(--light);
+}
+
+.Home_link {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.Home_link:hover {
+  font-weight: bold;
 }

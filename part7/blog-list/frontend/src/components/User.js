@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import './User.css';
 
@@ -27,7 +27,9 @@ const User = () => {
           const backgroundColor = index % 2 === 0 ? 'light' : 'dark';
           return (
             <li className={`User_blog ${backgroundColor}`} key={blog.id}>
-              {blog.title}
+              <Link className="User_link" to={`/blogs/${blog.id}`}>
+                {blog.title}
+              </Link>
             </li>
           );
         })}

@@ -32,14 +32,19 @@ p {
   margin: 0;
 }
 
+.App_Navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--light);
+}
+
 .App_loggedInUser {
   display: flex;
   align-items: center;
-  align-self: flex-end;
   font-size: 16px;
   font-style: italic;
   padding: 10px;
-  padding-bottom: 0;
   margin: 0;
 }
 

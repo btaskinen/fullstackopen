@@ -20,3 +20,12 @@
 .User_blog.light {
   background-color: var(--light);
 }
+
+.User_link {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.User_link:hover {
+  font-weight: bold;
+}

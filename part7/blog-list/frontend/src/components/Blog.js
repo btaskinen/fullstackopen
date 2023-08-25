@@ -1,44 +1,35 @@
-import { React, useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useParams, useNavigate } from 'react-router-dom';
 import './Blog.css';
 import { deleteBlog, addLike } from '../reducers/blogReducer';
 
-const Blog = ({ index, blog }) => {
+const Blog = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const blogs = useSelector((state) => state.blogs);
   const loggedinUser = useSelector((state) => state.login.user.name);
-  const [blogDetailsVisible, setVisibility] = useState(false);
-  const backgroundColor = index % 2 === 0 ? 'dark' : 'light';
+
+  const id = useParams().id;
+  const blog = blogs.find((blog) => blog.id === id);
 
   const handleDeleteBlog = (blog) => {
     console.log(blog);
     if (window.confirm(`Delete ${blog.title}?`)) {
       dispatch(deleteBlog(blog));
+      navigate('/');
     }
   };
 
-  const handleVisibility = () => {
-    setVisibility(!blogDetailsVisible);
-  };
-
-  const displayDetails = { display: blogDetailsVisible ? '' : 'none' };
-  const buttonLabel = blogDetailsVisible ? 'Hide' : 'View';
-
   return (
-    <div key={blog.id} className={`Blog ${backgroundColor}`}>
+    <div key={blog.id} className="Blog">
       <div className="Blog_title">
         <p>
           <strong>{blog.title}</strong>
         </p>
-        <button
-          className="Blog_Button Blog_toggleButton"
-          onClick={handleVisibility}
-        >
-          {buttonLabel}
-        </button>
       </div>
 
-      <div className="Blog_details" style={displayDetails}>
+      <div className="Blog_details">
         <p>
           <strong>Author:</strong>
         </p>
@@ -77,11 +68,6 @@ const Blog = ({ index, blog }) => {
       </div>
     </div>
   );
-};
-
-Blog.propTypes = {
-  index: PropTypes.number.isRequired,
-  blog: PropTypes.object.isRequired,
 };
 
 export default Blog;
