@@ -69,3 +69,21 @@
   font-size: 18px;
   height: 30px;
 }
+
+.Blog_comments > h3 {
+  margin: 0;
+  padding: 20px 0 10px 0;
+}
+
+.Blog_comment {
+  padding: 10px;
+}
+
+.Blog_comment.dark {
+  background-color: var(--darker);
+  color: #fff;
+}
+
+.Blog_comment.light {
+  background-color: var(--light);
+}

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import './Blog.css';
 import { deleteBlog, addLike } from '../reducers/blogReducer';
+import Comments from './Comments';
 
 const Blog = () => {
   const navigate = useNavigate();
@@ -66,6 +67,7 @@ const Blog = () => {
           </button>
         )}
       </div>
+      <Comments blog={blog} />
     </div>
   );
 };

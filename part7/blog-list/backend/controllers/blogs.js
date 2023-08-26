@@ -1,5 +1,6 @@
 const blogsRouter = require('express').Router();
 const Blog = require('../models/blog-entry');
+const Comment = require('../models/comments');
 
 blogsRouter.get('/info', (request, response) => {
   const timeOfRequest = new Date();
@@ -12,11 +13,13 @@ blogsRouter.get('/info', (request, response) => {
 });
 
 blogsRouter.get('/', async (request, response) => {
-  const blogs = await Blog.find({}).populate('user', {
-    username: 1,
-    name: 1,
-    id: 1,
-  });
+  const blogs = await Blog.find({})
+    .populate('user', {
+      username: 1,
+      name: 1,
+      id: 1,
+    })
+    .populate('comments', { comment: 1 });
   response.json(blogs);
 });
 
@@ -88,6 +91,33 @@ blogsRouter.delete('/:id', async (request, response) => {
       .status(401)
       .json({ error: 'You do not have permission to delete blog post!' });
   }
+});
+
+blogsRouter.post('/:id/comments', async (request, response) => {
+  const blogId = request.params.id;
+  const token = request.token;
+
+  const blog = await Blog.findById(request.params.id);
+
+  console.log('REQUEST', request);
+
+  if (!token.id) {
+    return response.status(401).json({ error: 'token invalid' });
+  }
+
+  const commentText = request.body.comment;
+
+  const comment = new Comment({
+    comment: commentText,
+    blog: blogId,
+  });
+
+  const savedComment = await comment.save();
+
+  blog.comments = blog.comments.concat(savedComment.id);
+  await blog.save();
+
+  response.status(201).json(savedComment);
 });
 
 module.exports = blogsRouter;
