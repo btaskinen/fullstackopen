@@ -33,4 +33,4 @@ The following React apps were created while working through the exercises:
 
 7. Part 7
 
-   In Part 7, React Router, Custom hooks, UI Frameworks, Webpack and Class Components were introduced. With the exercises, the newly introduced features are implmented to the [Blog List App](https://github.com/btaskinen/fullstackopen/tree/main/part4/blog-list).
+   In Part 7, React Router, Custom hooks, UI Frameworks, Webpack and Class Components were introduced. With the exercises, the newly introduced features are implmented to the [Blog List App](https://github.com/btaskinen/fullstackopen/tree/main/part7/blog-list).
