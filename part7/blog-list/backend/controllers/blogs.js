@@ -99,12 +99,11 @@ blogsRouter.post('/:id/comments', async (request, response) => {
 
   const blog = await Blog.findById(request.params.id);
 
-  console.log('REQUEST', request);
-
   if (!token.id) {
     return response.status(401).json({ error: 'token invalid' });
   }
 
+  console.log('REQUEST BODY', request.body);
   const commentText = request.body.comment;
 
   const comment = new Comment({

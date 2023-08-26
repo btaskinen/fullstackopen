@@ -1,0 +1,60 @@
+.Comments > h3 {
+  margin: 0;
+  padding: 20px 0 10px 0;
+}
+
+.Comments_comment {
+  padding: 10px;
+}
+
+.Comments_comment.dark {
+  background-color: var(--darker);
+  color: #fff;
+}
+
+.Comments_comment.light {
+  background-color: var(--light);
+}
+
+.Comments_inputField {
+  padding: 20px 0 10px 0;
+}
+
+.Comments_inputField > input {
+  background-color: var(--light);
+  color: #ffffff;
+  padding: 5px;
+  border: 2px solid var(--border);
+  border-radius: 5px;
+  height: 30px;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.Comments_inputField > input:focus {
+  background-color: var(--darker);
+  border: 2px solid var(--border);
+  outline: none;
+}
+
+.Comments_addButton {
+  align-self: flex-end;
+  width: fit-content;
+  height: 40px;
+  border: 3px solid var(--border);
+  border-radius: 5px;
+  color: white;
+  background-color: var(--darker);
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+}
+
+.Comments_addButton:hover {
+  color: var(--background);
+  background-color: var(--dark);
+}
+
+.Comments_addButton:active {
+  border: 3px solid var(--background);
+}

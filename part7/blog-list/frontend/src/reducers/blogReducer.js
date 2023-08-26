@@ -87,4 +87,23 @@ export const addLike = (blog) => {
   };
 };
 
+export const addComment = (blog, comment) => {
+  console.log(blog.comments);
+  console.log(blog.id);
+  return async (dispatch) => {
+    try {
+      const newComment = await blogServices.addComment(blog.id, comment);
+      console.log(newComment);
+      const copyComments = [...blog.comments];
+      const updatedComments = copyComments.push(newComment);
+      const updatedBlog = { ...blog, comments: updatedComments };
+      dispatch(updateBlog(updatedBlog));
+      dispatch(initializeBlogs());
+    } catch (error) {
+      console.log(error);
+      dispatch(setNotification(`${error}`, 'error', 5000));
+    }
+  };
+};
+
 export default blogSlice.reducer;
