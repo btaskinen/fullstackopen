@@ -1,5 +1,7 @@
 const { ApolloServer } = require('@apollo/server');
 const { startStandaloneServer } = require('@apollo/server/standalone');
+const { v1: uuid } = require('uuid');
+const { GraphQLError } = require('graphql');
 
 let authors = [
   {
@@ -101,7 +103,7 @@ const typeDefs = `
   type Author {
     name: String!
     id: ID!
-    born: Int!
+    born: Int
   }
   type Book {
     title: String!
@@ -113,7 +115,20 @@ const typeDefs = `
   type Query {
     bookCount: Int
     authorCount: Int
+    allAuthors: [Author]
     allBooks(author: String, genre: String): [Book]
+  }
+  type Mutation {
+    addAuthor(
+      name: String!
+      born: Int
+    ): Author
+    addBook(
+      title: String!
+      author: String!
+      published: Int!
+      genres: [String!]!
+    ): Book
   }
 `;
 
@@ -121,6 +136,7 @@ const resolvers = {
   Query: {
     bookCount: () => books.length,
     authorCount: () => authors.length,
+    allAuthors: () => authors,
     allBooks: (root, args) => {
       const returnedBooks = [];
       if (!args.author && !args.genre) {
@@ -151,6 +167,39 @@ const resolvers = {
       }
 
       return returnedBooks;
+    },
+  },
+  Mutation: {
+    addAuthor: (root, args) => {
+      if (authors.find((a) => a.name === args.name)) {
+        throw new GraphQLError('Author already in list!', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: args.name,
+          },
+        });
+      }
+      const author = { ...args, id: uuid() };
+      authors = authors.concat(author);
+      return author;
+    },
+    addBook: (root, args) => {
+      if (!authors.some((author) => args.author === author.author)) {
+        if (authors.find((a) => a.name === args.author)) {
+          throw new GraphQLError('Author already in list!', {
+            extensions: {
+              code: 'BAD_USER_INPUT',
+              invalidArgs: args.name,
+            },
+          });
+        }
+        const author = { name: args.author, id: uuid() };
+        authors = authors.concat(author);
+      }
+      const book = { ...args, id: uuid() };
+      books = books.concat(book);
+      return book;
+      // }
     },
   },
 };
