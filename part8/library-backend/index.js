@@ -98,6 +98,11 @@ let books = [
 */
 
 const typeDefs = `
+  type Author {
+    name: String!
+    id: ID!
+    born: Int!
+  }
   type Book {
     title: String!
     author: String!
@@ -108,7 +113,7 @@ const typeDefs = `
   type Query {
     bookCount: Int
     authorCount: Int
-    allBooks: [Book]
+    allBooks(author: String): [Book]
   }
 `;
 
@@ -116,7 +121,19 @@ const resolvers = {
   Query: {
     bookCount: () => books.length,
     authorCount: () => authors.length,
-    allBooks: () => books,
+    allBooks: (root, args) => {
+      if (!args.author) {
+        return books;
+      } else {
+        const authorBooks = [];
+        books.forEach((book) => {
+          if (book.author === args.author) {
+            authorBooks.push(book);
+          }
+        });
+        return authorBooks;
+      }
+    },
   },
 };
 
