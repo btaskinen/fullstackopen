@@ -1,13 +1,9 @@
 import React from 'react';
-import PropType from 'prop-types';
 import Author from './Author';
 import { useQuery } from '@apollo/client';
 import { ALL_AUTHORS } from '../queries';
 
-const Authors = ({ show }) => {
-  if (!show) {
-    return null;
-  }
+const Authors = () => {
   const authors = useQuery(ALL_AUTHORS);
 
   if (authors.loading) {
@@ -33,10 +29,6 @@ const Authors = ({ show }) => {
       </table>
     </div>
   );
-};
-
-Authors.propTypes = {
-  show: PropType.bool.isRequired,
 };
 
 export default Authors;

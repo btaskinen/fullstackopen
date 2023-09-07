@@ -1,13 +1,8 @@
 import React from 'react';
-import PropType from 'prop-types';
 import { useQuery } from '@apollo/client';
 import { ALL_BOOKS } from '../queries';
 
-const Books = ({ show }) => {
-  if (!show) {
-    return null;
-  }
-
+const Books = () => {
   const books = useQuery(ALL_BOOKS);
 
   if (books.loading) {
@@ -36,10 +31,6 @@ const Books = ({ show }) => {
       </table>
     </div>
   );
-};
-
-Books.propTypes = {
-  show: PropType.bool.isRequired,
 };
 
 export default Books;

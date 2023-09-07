@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropType from 'prop-types';
 import { useMutation } from '@apollo/client';
 import { ALL_AUTHORS, ALL_BOOKS, CREATE_BOOK } from '../queries';
 
-const NewBook = ({ show, setError }) => {
+const NewBook = ({ setError }) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [published, setPublished] = useState('');
   const [genre, setGenre] = useState('');
   const [genres, setGenres] = useState([]);
+
+  const navigate = useNavigate();
 
   const [createBook] = useMutation(CREATE_BOOK, {
     refetchQueries: [{ query: ALL_AUTHORS }, { query: ALL_BOOKS }],
@@ -18,10 +21,6 @@ const NewBook = ({ show, setError }) => {
     },
   });
 
-  if (!show) {
-    return null;
-  }
-
   const submit = async (event) => {
     event.preventDefault();
 
@@ -30,6 +29,8 @@ const NewBook = ({ show, setError }) => {
     console.log(year);
 
     createBook({ variables: { title, author, year, genres } });
+
+    navigate('/books');
 
     setTitle('');
     setPublished('');
@@ -85,7 +86,6 @@ const NewBook = ({ show, setError }) => {
 };
 
 NewBook.propTypes = {
-  show: PropType.bool.isRequired,
   setError: PropType.func.isRequired,
 };
 
