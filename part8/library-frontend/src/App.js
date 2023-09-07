@@ -41,7 +41,7 @@ const Notification = ({ errorMessage }) => {
 };
 
 Notification.propTypes = {
-  errorMessage: PropType.string.isRequired,
+  errorMessage: PropType.string,
 };
 
 export default App;
