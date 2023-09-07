@@ -1,12 +1,22 @@
 import React, { useState } from 'react';
 import PropType from 'prop-types';
+import { useMutation } from '@apollo/client';
+import { ALL_AUTHORS, ALL_BOOKS, CREATE_BOOK } from '../queries';
 
-const NewBook = ({ show }) => {
+const NewBook = ({ show, setError }) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [published, setPublished] = useState('');
   const [genre, setGenre] = useState('');
   const [genres, setGenres] = useState([]);
+
+  const [createBook] = useMutation(CREATE_BOOK, {
+    refetchQueries: [{ query: ALL_AUTHORS }, { query: ALL_BOOKS }],
+    onError: (error) => {
+      const message = error.graphQLErrors[0].message;
+      setError(message);
+    },
+  });
 
   if (!show) {
     return null;
@@ -15,7 +25,11 @@ const NewBook = ({ show }) => {
   const submit = async (event) => {
     event.preventDefault();
 
-    console.log('add book...');
+    const year = Number(published);
+
+    console.log(year);
+
+    createBook({ variables: { title, author, year, genres } });
 
     setTitle('');
     setPublished('');
@@ -72,6 +86,7 @@ const NewBook = ({ show }) => {
 
 NewBook.propTypes = {
   show: PropType.bool.isRequired,
+  setError: PropType.func.isRequired,
 };
 
 export default NewBook;
