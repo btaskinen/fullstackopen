@@ -1,5 +1,6 @@
 import React from 'react';
 import PropType from 'prop-types';
+import Author from './Author';
 import { useQuery } from '@apollo/client';
 import { ALL_AUTHORS } from '../queries';
 
@@ -26,11 +27,7 @@ const Authors = ({ show }) => {
             <th>books</th>
           </tr>
           {authors.data.allAuthors.map((a) => (
-            <tr key={a.name}>
-              <td>{a.name}</td>
-              <td>{a.born}</td>
-              <td>{a.bookCount}</td>
-            </tr>
+            <Author key={a.name} author={a} />
           ))}
         </tbody>
       </table>
