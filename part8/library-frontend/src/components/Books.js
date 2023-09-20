@@ -9,8 +9,6 @@ const Books = () => {
     return <div>loading...</div>;
   }
 
-  console.log('Books', books);
-
   return (
     <div>
       <h2>books</h2>

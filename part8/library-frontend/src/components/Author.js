@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
 import PropType from 'prop-types';
 import { useMutation } from '@apollo/client';
-import { EDIT_BIRTHYEAR } from '../queries';
+import { EDIT_BIRTHYEAR, ALL_AUTHORS } from '../queries';
 
-const Author = ({ author }) => {
+const Author = ({ author, setError }) => {
   const [editYear, setEditYear] = useState(false);
   const [year, setYear] = useState('');
 
-  const [changeBirthyear] = useMutation(EDIT_BIRTHYEAR);
+  const [changeBirthyear] = useMutation(EDIT_BIRTHYEAR, {
+    refetchQueries: [{ query: ALL_AUTHORS }],
+    onError: (error) => {
+      const message = error.graphQLErrors[0].message;
+      setError(message);
+    },
+  });
 
   const setBirthyearHandler = () => {
     console.log(editYear);
@@ -52,6 +58,7 @@ const Author = ({ author }) => {
 
 Author.propTypes = {
   author: PropType.object.isRequired,
+  setError: PropType.func.isRequired,
 };
 
 export default Author;

@@ -26,7 +26,7 @@ const NewBook = ({ setError }) => {
 
     const year = Number(published);
 
-    console.log(year);
+    console.log('variables: ', title, author, year, genres);
 
     createBook({ variables: { title, author, year, genres } });
 
