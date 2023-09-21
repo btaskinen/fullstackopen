@@ -4,6 +4,7 @@ import Authors from './components/Authors';
 import Books from './components/Books';
 import NewBook from './components/NewBook';
 import LoginForm from './components/LoginForm';
+import Recommendations from './components/Recommendations';
 import PropType from 'prop-types';
 import { useApolloClient } from '@apollo/client';
 
@@ -43,12 +44,15 @@ const App = () => {
           <Link style={{ padding: 5 }} to="/add">
             Add Book
           </Link>
+          <Link style={{ padding: 5 }} to="/recommend">
+            Recommend
+          </Link>
           <button style={{ padding: 5 }} type="button" onClick={logout}>
             Logout
           </button>
         </div>
       )}
-      <Notification errorMessageessage={errorMessage} />
+      <Notification errorMessage={errorMessage} />
 
       <Routes>
         <Route
@@ -73,6 +77,12 @@ const App = () => {
             ) : (
               <Navigate replace to="/login" />
             )
+          }
+        />
+        <Route
+          path="/recommend"
+          element={
+            token ? <Recommendations /> : <Navigate replace to="/login" />
           }
         />
         <Route
