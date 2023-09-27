@@ -6,7 +6,8 @@ import NewBook from './components/NewBook';
 import LoginForm from './components/LoginForm';
 import Recommendations from './components/Recommendations';
 import PropType from 'prop-types';
-import { useApolloClient } from '@apollo/client';
+import { useApolloClient, useSubscription } from '@apollo/client';
+import { ALL_BOOKS, BOOK_ADDED } from './queries';
 
 const App = () => {
   const [token, setToken] = useState(null);
@@ -14,6 +15,20 @@ const App = () => {
   const client = useApolloClient();
 
   const navigate = useNavigate();
+
+  useSubscription(BOOK_ADDED, {
+    onData: ({ data }) => {
+      console.log(data);
+      const addedBook = data.data.bookAdded;
+      alert(`${addedBook.title} added`);
+
+      client.cache.updateQuery({ query: ALL_BOOKS }, ({ allBooks }) => {
+        return {
+          allBooks: allBooks.concat(addedBook),
+        };
+      });
+    },
+  });
 
   const logout = () => {
     setToken(null);
@@ -24,8 +39,6 @@ const App = () => {
 
   const handleError = (message) => {
     setErrorMessage(message);
-    console.log(token);
-    console.log(message);
     setTimeout(() => {
       setErrorMessage(null);
     }, 10000);
