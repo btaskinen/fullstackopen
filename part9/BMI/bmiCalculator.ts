@@ -13,6 +13,8 @@ const calculateBmi = (): string => {
   } else if (bmi >= 30.0) {
     return 'Obese';
   }
+
+  return 'something went wrong';
 };
 
 console.log(calculateBmi());
