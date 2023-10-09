@@ -8,10 +8,13 @@ interface Result {
   average: number;
 }
 
-const calculateExercises = (
-  dailyExerciseHours: number[],
-  dailyTarget: number
-): Result => {
+const calculateExercises = (): Result => {
+  const dailyTarget = Number(process.argv[2]);
+
+  const dailyExerciseHoursStrings = process.argv.slice(3);
+  const dailyExerciseHours = dailyExerciseHoursStrings.map((hour) =>
+    Number(hour)
+  );
   const periodLength = dailyExerciseHours.length;
   let trainingDays = 0;
   dailyExerciseHours.forEach((day) => {
@@ -46,4 +49,4 @@ const calculateExercises = (
   };
 };
 
-console.log(calculateExercises([0, 0, 0, 0, 2, 3, 4], 2));
+console.log(calculateExercises());
