@@ -8,7 +8,7 @@ export const calculateBmi = (height: number, weight: number): string => {
   } else if (bmi >= 18.5 && bmi <= 24.9) {
     return 'Normal (healthy weight)';
   } else if (bmi >= 25.0 && bmi <= 29.9) {
-    return 'Overweight (pre-obese';
+    return 'Overweight (pre-obese)';
   } else if (bmi >= 30.0) {
     return 'Obese';
   }
