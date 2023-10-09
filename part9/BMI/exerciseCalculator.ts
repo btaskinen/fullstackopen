@@ -1,3 +1,5 @@
+import { parseArguments } from './utils/helperFunctions';
+
 interface Result {
   periodLength: number;
   trainingDays: number;
@@ -8,13 +10,10 @@ interface Result {
   average: number;
 }
 
-const calculateExercises = (): Result => {
-  const dailyTarget = Number(process.argv[2]);
-
-  const dailyExerciseHoursStrings = process.argv.slice(3);
-  const dailyExerciseHours = dailyExerciseHoursStrings.map((hour) =>
-    Number(hour)
-  );
+const calculateExercises = (
+  dailyExerciseHours: number[],
+  dailyTarget: number
+): Result => {
   const periodLength = dailyExerciseHours.length;
   let trainingDays = 0;
   dailyExerciseHours.forEach((day) => {
@@ -49,4 +48,13 @@ const calculateExercises = (): Result => {
   };
 };
 
-console.log(calculateExercises());
+try {
+  const { value1, value2 } = parseArguments(process.argv);
+  console.log(calculateExercises(value2, value1));
+} catch (error: unknown) {
+  let errorMessage = 'Something bad happened.';
+  if (error instanceof Error) {
+    errorMessage += ' Error: ' + error.message;
+  }
+  console.log(errorMessage);
+}

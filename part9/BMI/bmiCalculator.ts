@@ -1,7 +1,6 @@
-const calculateBmi = (): string => {
-  const height = Number(process.argv[2]);
-  const weight = Number(process.argv[3]);
+import { parseArguments } from './utils/helperFunctions';
 
+export const calculateBmi = (height: number, weight: number): string => {
   const heightInMeter = height * 0.01;
   const bmi = weight / (heightInMeter * heightInMeter);
   if (bmi <= 18.4) {
@@ -17,4 +16,13 @@ const calculateBmi = (): string => {
   return 'something went wrong';
 };
 
-console.log(calculateBmi());
+try {
+  const { value1, value2 } = parseArguments(process.argv);
+  console.log(calculateBmi(value1, value2[0]));
+} catch (error: unknown) {
+  let errorMessage = 'Something bad happened.';
+  if (error instanceof Error) {
+    errorMessage += ' Error: ' + error.message;
+  }
+  console.log(errorMessage);
+}
