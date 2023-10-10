@@ -24,7 +24,11 @@ app.get('/bmi', (req, res) => {
       bmi: bmi,
     });
   } catch (error) {
-    res.status(400).end(error.message);
+    if (error instanceof Error) {
+      res.status(400).end(error.message);
+    } else {
+      res.status(500).end('Internal Server Error');
+    }
   }
 });
 
