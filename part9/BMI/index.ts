@@ -53,7 +53,7 @@ app.post('/exercises', (req, res) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const result = calculateExercises(dailyExercises, target);
     console.log(result);
-    res.status(200).send(result);
+    res.status(200).json(result);
   } catch (error) {
     if (error instanceof Error) {
       res.status(400).end(error.message);
