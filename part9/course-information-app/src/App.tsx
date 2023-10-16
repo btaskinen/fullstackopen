@@ -3,6 +3,11 @@ import Content from './components/Content';
 import Total from './components/Total';
 
 const App = () => {
+  const assertNever = (value: never): never => {
+    throw new Error(
+      `Unhandled disriminated union member ${JSON.stringify(value)}`
+    );
+  };
   interface CoursePartBase {
     name: string;
     exerciseCount: number;
@@ -55,6 +60,22 @@ const App = () => {
       kind: 'background',
     },
   ];
+
+  courseParts.forEach((part) => {
+    switch (part.kind) {
+      case 'basic':
+        console.log(part.name, part.description, part.exerciseCount);
+        break;
+      case 'group':
+        console.log(part.name, part.exerciseCount, part.groupProjectCount);
+        break;
+      case 'background':
+        console.log(part.name, part.description, part.backgroundMaterial);
+        break;
+      default:
+        return assertNever(part);
+    }
+  });
 
   const totalExercises = courseParts.reduce(
     (sum, part) => sum + part.exerciseCount,
