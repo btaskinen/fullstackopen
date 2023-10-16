@@ -2,34 +2,40 @@ import Header from './components/Header';
 import Content from './components/Content';
 import Total from './components/Total';
 
+interface CoursePartBase {
+  name: string;
+  exerciseCount: number;
+}
+
+interface CoursePartDescription extends CoursePartBase {
+  description: string;
+}
+interface CoursePartBasic extends CoursePartDescription {
+  kind: 'basic';
+}
+
+interface CoursePartGroup extends CoursePartBase {
+  groupProjectCount: number;
+  kind: 'group';
+}
+
+interface CoursePartBackground extends CoursePartDescription {
+  backgroundMaterial: string;
+  kind: 'background';
+}
+
+interface CoursePartSpecial extends CoursePartDescription {
+  requirements: string[];
+  kind: 'special';
+}
+
+export type CoursePart =
+  | CoursePartBasic
+  | CoursePartGroup
+  | CoursePartBackground
+  | CoursePartSpecial;
+
 const App = () => {
-  const assertNever = (value: never): never => {
-    throw new Error(
-      `Unhandled disriminated union member ${JSON.stringify(value)}`
-    );
-  };
-  interface CoursePartBase {
-    name: string;
-    exerciseCount: number;
-  }
-  interface CoursePartBasic extends CoursePartBase {
-    description: string;
-    kind: 'basic';
-  }
-
-  interface CoursePartGroup extends CoursePartBase {
-    groupProjectCount: number;
-    kind: 'group';
-  }
-
-  interface CoursePartBackground extends CoursePartBase {
-    description: string;
-    backgroundMaterial: string;
-    kind: 'background';
-  }
-
-  type CoursePart = CoursePartBasic | CoursePartGroup | CoursePartBackground;
-
   const courseName = 'Half Stack application development';
 
   const courseParts: CoursePart[] = [
@@ -59,23 +65,20 @@ const App = () => {
         'https://type-level-typescript.com/template-literal-types',
       kind: 'background',
     },
+    {
+      name: 'TypeScript in frontend',
+      exerciseCount: 10,
+      description: 'a hard part',
+      kind: 'basic',
+    },
+    {
+      name: 'Backend development',
+      exerciseCount: 21,
+      description: 'Typing the backend',
+      requirements: ['nodejs', 'jest'],
+      kind: 'special',
+    },
   ];
-
-  courseParts.forEach((part) => {
-    switch (part.kind) {
-      case 'basic':
-        console.log(part.name, part.description, part.exerciseCount);
-        break;
-      case 'group':
-        console.log(part.name, part.exerciseCount, part.groupProjectCount);
-        break;
-      case 'background':
-        console.log(part.name, part.description, part.backgroundMaterial);
-        break;
-      default:
-        return assertNever(part);
-    }
-  });
 
   const totalExercises = courseParts.reduce(
     (sum, part) => sum + part.exerciseCount,
