@@ -8,7 +8,18 @@ export const getAllDiaryEntries = () => {
 };
 
 export const createDiaryEntry = (object: NewDiaryEntry) => {
+  console.log('calling create diary entry function');
   return axios
     .post<DiaryEntry>(baseUrl, object)
-    .then((response) => response.data);
+    .then((response) => response.data)
+    .catch((error) => {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          return error.response.data;
+        }
+        return error.message;
+      } else {
+        return error;
+      }
+    });
 };

@@ -2,13 +2,19 @@ import { useState } from 'react';
 import './NewEntryForm.css';
 import { createDiaryEntry } from '../services/diaryService';
 import { NewDiaryEntry, Weather, Visibility, DiaryEntry } from '../types';
+import { isDiaryEntry } from '../utils';
 
 type Props = {
   diaryEntries: DiaryEntry[];
   setDiaryEntries: (a: DiaryEntry[]) => void;
+  setNotification: (a: string | null) => void;
 };
 
-const NewEntryForm = ({ diaryEntries, setDiaryEntries }: Props) => {
+const NewEntryForm = ({
+  diaryEntries,
+  setDiaryEntries,
+  setNotification,
+}: Props) => {
   const [newDate, setNewDate] = useState('');
   const [newWeather, setNewWeather] = useState<Weather>(Weather.Empty);
   const [newVisibility, setNewVisibility] = useState<Visibility>(
@@ -24,9 +30,16 @@ const NewEntryForm = ({ diaryEntries, setDiaryEntries }: Props) => {
       visibility: newVisibility,
       comment: newComment,
     };
-    createDiaryEntry(entryToAdd).then((data) =>
-      setDiaryEntries(diaryEntries.concat(data))
-    );
+    createDiaryEntry(entryToAdd).then((data) => {
+      if (isDiaryEntry(data)) {
+        setDiaryEntries(diaryEntries.concat(data));
+      } else {
+        setNotification(data);
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
+      }
+    });
 
     setNewDate('');
     setNewWeather(Weather.Empty);
