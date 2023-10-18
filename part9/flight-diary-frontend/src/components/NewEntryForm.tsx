@@ -45,8 +45,6 @@ const NewEntryForm = ({
     setNewWeather(Weather.Empty);
     setNewVisibility(Visibility.Empty);
     setNewComment('');
-
-    console.log('foo');
   };
 
   return (
@@ -56,6 +54,7 @@ const NewEntryForm = ({
         <label className="NewEntryForm_inputContainer">
           Date:{' '}
           <input
+            type="date"
             className="NewEntryForm_input"
             value={newDate}
             onChange={(event) => setNewDate(event.target.value)}
@@ -63,21 +62,74 @@ const NewEntryForm = ({
         </label>
         <label className="NewEntryForm_inputContainer">
           Weather:{' '}
-          <input
-            className="NewEntryForm_input"
-            value={newWeather}
-            onChange={(event) => setNewWeather(event.target.value as Weather)}
-          />
+          <div>
+            <input
+              className="NewEntryForm_radioButton"
+              type="radio"
+              name="weather"
+              onChange={() => setNewWeather(Weather.Sunny)}
+            />{' '}
+            {Weather.Sunny}
+            <input
+              className="NewEntryForm_radioButton"
+              type="radio"
+              name="weather"
+              onChange={() => setNewWeather(Weather.Cloudy)}
+            />{' '}
+            {Weather.Cloudy}
+            <input
+              className="NewEntryForm_radioButton"
+              type="radio"
+              name="weather"
+              onChange={() => setNewWeather(Weather.Windy)}
+            />{' '}
+            {Weather.Windy}
+            <input
+              className="NewEntryForm_radioButton"
+              type="radio"
+              name="weather"
+              onChange={() => setNewWeather(Weather.Rainy)}
+            />{' '}
+            {Weather.Rainy}
+            <input
+              className="NewEntryForm_radioButton"
+              type="radio"
+              name="weather"
+              onChange={() => setNewWeather(Weather.Stormy)}
+            />{' '}
+            {Weather.Stormy}
+          </div>
         </label>
         <label className="NewEntryForm_inputContainer">
           Visibility:{' '}
           <input
-            className="NewEntryForm_input"
-            value={newVisibility}
-            onChange={(event) =>
-              setNewVisibility(event.target.value as Visibility)
-            }
-          />
+            className="NewEntryForm_radioButton"
+            type="radio"
+            name="visibility"
+            onChange={() => setNewVisibility(Visibility.Great)}
+          />{' '}
+          great
+          <input
+            className="NewEntryForm_radioButton"
+            type="radio"
+            name="visibility"
+            onChange={() => setNewVisibility(Visibility.Good)}
+          />{' '}
+          good
+          <input
+            className="NewEntryForm_radioButton"
+            type="radio"
+            name="visibility"
+            onChange={() => setNewVisibility(Visibility.Ok)}
+          />{' '}
+          ok
+          <input
+            className="NewEntryForm_radioButton"
+            type="radio"
+            name="visibility"
+            onChange={() => setNewVisibility(Visibility.Poor)}
+          />{' '}
+          poor
         </label>
         <label className="NewEntryForm_inputContainer">
           Comment:{' '}

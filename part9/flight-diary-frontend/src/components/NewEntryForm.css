@@ -12,6 +12,8 @@
 }
 
 .NewEntryForm_inputContainer {
+  display: flex;
+  gap: 5px;
   padding: 5px;
 }
 
