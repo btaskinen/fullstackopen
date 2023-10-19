@@ -1,0 +1,10 @@
+.nameContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.genderSvg {
+  width: 2.125rem;
+  height: 2.125rem;
+}
