@@ -16,7 +16,6 @@ router.get('/:id', (req, res) => {
     if (!queriedPatient) {
       throw new Error('Patient not found.');
     }
-    queriedPatient.entries = [];
     console.log(queriedPatient);
     return res.status(200).send(queriedPatient);
   } catch (error) {
