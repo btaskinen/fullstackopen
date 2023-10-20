@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material';
-import { Patient } from '../types';
+import { Patient, Diagnosis } from '../types';
 import { useParams } from 'react-router-dom';
 import FemaleIcon from '@mui/icons-material/Female';
 import MaleIcon from '@mui/icons-material/Male';
@@ -7,9 +7,10 @@ import './PatientInformationPage.css';
 
 type Props = {
   patients: Patient[];
+  diagnoses: Diagnosis[];
 };
 
-const PatientInformationPage = ({ patients }: Props) => {
+const PatientInformationPage = ({ patients, diagnoses }: Props) => {
   const id = useParams().id;
   const patient = patients.find((patient) => patient.id === id);
 
@@ -54,11 +55,21 @@ const PatientInformationPage = ({ patients }: Props) => {
           <Typography>
             {entry.date} {entry.description}
           </Typography>
-          {entry.diagnosisCodes?.map((code) => (
+          <Typography>
             <ul className="unorderedList">
-              <li>{code}</li>
+              {entry.diagnosisCodes?.map((code) => {
+                const diagnosisCode = diagnoses.find(
+                  (diagnosis) => diagnosis.code === code
+                );
+                console.log(diagnosisCode);
+                return (
+                  <li>
+                    {code} {diagnosisCode ? diagnosisCode.name : ''}
+                  </li>
+                );
+              })}
             </ul>
-          ))}
+          </Typography>
         </div>
       ))}
     </div>
