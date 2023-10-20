@@ -1,9 +1,10 @@
 import { Typography } from '@mui/material';
-import { Patient, Diagnosis } from '../types';
+import { Patient, Diagnosis } from '../../types';
 import { useParams } from 'react-router-dom';
 import FemaleIcon from '@mui/icons-material/Female';
 import MaleIcon from '@mui/icons-material/Male';
 import './PatientInformationPage.css';
+import PatientEntry from './PatientEntry';
 
 type Props = {
   patients: Patient[];
@@ -50,28 +51,11 @@ const PatientInformationPage = ({ patients, diagnoses }: Props) => {
       >
         Entries
       </Typography>
-      {patient.entries.map((entry) => (
-        <div key={entry.id}>
-          <Typography>
-            {entry.date} {entry.description}
-          </Typography>
-          <Typography>
-            <ul className="unorderedList">
-              {entry.diagnosisCodes?.map((code) => {
-                const diagnosisCode = diagnoses.find(
-                  (diagnosis) => diagnosis.code === code
-                );
-                console.log(diagnosisCode);
-                return (
-                  <li>
-                    {code} {diagnosisCode ? diagnosisCode.name : ''}
-                  </li>
-                );
-              })}
-            </ul>
-          </Typography>
-        </div>
-      ))}
+      <div className="entriesContainer">
+        {patient.entries.map((entry) => (
+          <PatientEntry entry={entry} diagnoses={diagnoses} />
+        ))}
+      </div>
     </div>
   );
 };
