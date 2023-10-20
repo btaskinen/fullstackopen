@@ -41,9 +41,26 @@ const PatientInformationPage = ({ patients }: Props) => {
         </Typography>
         {genderIcon}
       </div>
-
       <Typography>ssh: {patient.ssn}</Typography>
-      <Typography>occupation: {patient.occupation}</Typography>
+      <Typography>occupation: {patient.occupation}</Typography>{' '}
+      <Typography
+        variant="h5"
+        style={{ marginBottom: '0.5em', marginTop: '0.5em' }}
+      >
+        Entries
+      </Typography>
+      {patient.entries.map((entry) => (
+        <div key={entry.id}>
+          <Typography>
+            {entry.date} {entry.description}
+          </Typography>
+          {entry.diagnosisCodes?.map((code) => (
+            <ul className="unorderedList">
+              <li>{code}</li>
+            </ul>
+          ))}
+        </div>
+      ))}
     </div>
   );
 };
